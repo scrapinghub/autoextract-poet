@@ -204,6 +204,17 @@ def test_product():
     product = example_product_result["product"]
     item = Product.from_dict(product)
     for key, value in product.items():
+        if key == 'breadcrumbs':
+            value = Breadcrumb.from_list(value)
+        if key == 'offers':
+            value = Offer.from_list(value)
+        if key == 'additionalProperty':
+            value = AdditionalProperty.from_list(value)
+        if key == 'gtin':
+            value = GTIN.from_list(value)
+        if key == 'aggregateRating':
+            value = Rating.from_dict(value)
+
         assert getattr(item, key) == value
 
     # AttributeError: 'Product' object has no attribute 'foo'
@@ -219,6 +230,9 @@ def test_article():
     article = example_article_result["article"]
     item = Article.from_dict(article)
     for key, value in article.items():
+        if key == 'breadcrumbs':
+            value = Breadcrumb.from_list(value)
+
         assert getattr(item, key) == value
 
     # AttributeError: 'Article' object has no attribute 'foo'

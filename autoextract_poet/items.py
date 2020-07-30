@@ -14,8 +14,12 @@ class Item:
         super().__setattr__(key, value)
 
     @classmethod
-    def from_dict(cls, item_dict: dict):
-        return cls(**item_dict) if item_dict else None
+    def from_dict(cls, item: Optional[Dict]):
+        return cls(**item) if item else None  # type: ignore
+
+    @classmethod
+    def from_list(cls, items: List[Dict]):
+        return [cls.from_dict(item) for item in items if item]
 
 
 @attr.s(auto_attribs=True, slots=True)
@@ -80,6 +84,18 @@ class Article(Item):
     canonicalUrl: Optional[str] = None
     url: Optional[str] = None
 
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
+        ))
+
+        return super().from_dict(new_item)
+
 
 @attr.s(auto_attribs=True, slots=True)
 class Product(Item):
@@ -98,3 +114,20 @@ class Product(Item):
     url: Optional[str] = None
     additionalProperty: Optional[List[AdditionalProperty]] = None
     aggregateRating: Optional[Rating] = None
+
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            additionalProperty=AdditionalProperty.from_list(
+                item.get("additionalProperty", [])),
+            aggregateRating=Rating.from_dict(item.get("aggregateRating")),
+            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
+            gtin=GTIN.from_list(item.get("gtin", [])),
+            offers=Offer.from_list(item.get("offers", [])),
+        ))
+
+        return super().from_dict(new_item)
