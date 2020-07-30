@@ -3,15 +3,8 @@ from typing import Dict, List, Optional, Tuple
 import attr
 
 
+@attr.s(auto_attribs=True, slots=True)
 class Item:
-
-    def __setattr__(self, key, value):
-        if key not in self.__slots__:
-            raise AttributeError(
-                f"'{self.__class__.__name__}' object has not attribute '{key}'"
-            )
-
-        super().__setattr__(key, value)
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
