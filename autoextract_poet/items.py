@@ -28,6 +28,13 @@ class Rating:
 
 
 @attr.s(auto_attribs=True, slots=True)
+class AdditionalProperty:
+
+    name: str
+    value: str
+
+
+@attr.s(auto_attribs=True, slots=True)
 class Article:
 
     headline: Optional[str] = None
@@ -67,5 +74,5 @@ class Product:
     description: Optional[str] = None
     probability: Optional[float] = None
     url: Optional[str] = None
-    additionalProperty: Optional[List[Tuple[str, str]]] = None
+    additionalProperty: Optional[List[AdditionalProperty]] = None
     aggregateRating: Optional[Rating] = None

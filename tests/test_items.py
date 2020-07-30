@@ -4,6 +4,7 @@ from autoextract_poet.items import (
     Offer,
     Breadcrumb,
     Rating,
+    AdditionalProperty,
     Article,
     Product,
 )
@@ -151,6 +152,21 @@ def test_breadcrumb(breadcrumb):
     # TypeError: __init__() got an unexpected argument 'foo'
     with pytest.raises(TypeError):
         Breadcrumb(**breadcrumb, foo="bar")
+
+
+@pytest.mark.parametrize("additional_property", example_product_result["product"]["additionalProperty"])  # type: ignore
+def test_additional_property(additional_property):
+    item = AdditionalProperty(**additional_property)
+    for key, value in additional_property.items():
+        assert getattr(item, key) == value
+
+    # AttributeError: 'Breadcrumb' object has no attribute 'foo'
+    with pytest.raises(AttributeError):
+        item.foo = "bar"
+
+    # TypeError: __init__() got an unexpected argument 'foo'
+    with pytest.raises(TypeError):
+        AdditionalProperty(**additional_property, foo="bar")
 
 
 def test_rating():
