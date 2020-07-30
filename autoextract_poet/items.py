@@ -3,7 +3,7 @@ from typing import Dict, List, Optional, Tuple
 import attr
 
 
-@attr.s(frozen=False, hash=True, auto_attribs=True, slots=True)
+@attr.s(auto_attribs=True, slots=True)
 class Offer:
 
     price: Optional[str] = None
@@ -12,14 +12,14 @@ class Offer:
     regularPrice: Optional[str] = None
 
 
-@attr.s(frozen=True, auto_attribs=True, slots=True)
+@attr.s(auto_attribs=True, slots=True)
 class Breadcrumb:
 
     name: Optional[str] = None
     link: Optional[str] = None
 
 
-@attr.s(frozen=True, auto_attribs=True, slots=True)
+@attr.s(auto_attribs=True, slots=True)
 class Rating:
 
     ratingValue: Optional[float]
