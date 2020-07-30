@@ -127,7 +127,7 @@ example_product_result = {
 
 @pytest.mark.parametrize("offer", example_product_result["product"]["offers"])  # type: ignore
 def test_offer(offer):
-    item = Offer(**offer)
+    item = Offer.from_dict(offer)
     for key, value in offer.items():
         assert getattr(item, key) == value
 
@@ -142,7 +142,7 @@ def test_offer(offer):
 
 @pytest.mark.parametrize("breadcrumb", example_product_result["product"]["breadcrumbs"])  # type: ignore
 def test_breadcrumb(breadcrumb):
-    item = Breadcrumb(**breadcrumb)
+    item = Breadcrumb.from_dict(breadcrumb)
     for key, value in breadcrumb.items():
         assert getattr(item, key) == value
 
@@ -157,7 +157,7 @@ def test_breadcrumb(breadcrumb):
 
 @pytest.mark.parametrize("additional_property", example_product_result["product"]["additionalProperty"])  # type: ignore
 def test_additional_property(additional_property):
-    item = AdditionalProperty(**additional_property)
+    item = AdditionalProperty.from_dict(additional_property)
     for key, value in additional_property.items():
         assert getattr(item, key) == value
 
@@ -172,7 +172,7 @@ def test_additional_property(additional_property):
 
 @pytest.mark.parametrize("gtin", example_product_result["product"]["gtin"])  # type: ignore
 def test_gtin(gtin):
-    item = GTIN(**gtin)
+    item = GTIN.from_dict(gtin)
     for key, value in gtin.items():
         assert getattr(item, key) == value
 
@@ -187,7 +187,7 @@ def test_gtin(gtin):
 
 def test_rating():
     rating = example_product_result["product"]["aggregateRating"]
-    item = Rating(**rating)
+    item = Rating.from_dict(rating)
     for key, value in rating.items():
         assert getattr(item, key) == value
 
@@ -202,7 +202,7 @@ def test_rating():
 
 def test_product():
     product = example_product_result["product"]
-    item = Product(**product)
+    item = Product.from_dict(product)
     for key, value in product.items():
         assert getattr(item, key) == value
 
@@ -217,7 +217,7 @@ def test_product():
 
 def test_article():
     article = example_article_result["article"]
-    item = Article(**article)
+    item = Article.from_dict(article)
     for key, value in article.items():
         assert getattr(item, key) == value
 

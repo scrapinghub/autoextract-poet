@@ -3,8 +3,23 @@ from typing import Dict, List, Optional, Tuple
 import attr
 
 
+class Item:
+
+    def __setattr__(self, key, value):
+        if key not in self.__slots__:
+            raise AttributeError(
+                f"'{self.__class__.__name__}' object has not attribute '{key}'"
+            )
+
+        super().__setattr__(key, value)
+
+    @classmethod
+    def from_dict(cls, item_dict: dict):
+        return cls(**item_dict) if item_dict else None
+
+
 @attr.s(auto_attribs=True, slots=True)
-class Offer:
+class Offer(Item):
 
     price: Optional[str] = None
     currency: Optional[str] = None
@@ -13,14 +28,14 @@ class Offer:
 
 
 @attr.s(auto_attribs=True, slots=True)
-class Breadcrumb:
+class Breadcrumb(Item):
 
     name: Optional[str] = None
     link: Optional[str] = None
 
 
 @attr.s(auto_attribs=True, slots=True)
-class Rating:
+class Rating(Item):
 
     ratingValue: Optional[float]
     bestRating: Optional[float]
@@ -28,21 +43,21 @@ class Rating:
 
 
 @attr.s(auto_attribs=True, slots=True)
-class AdditionalProperty:
+class AdditionalProperty(Item):
 
     name: str
     value: str
 
 
 @attr.s(auto_attribs=True, slots=True)
-class GTIN:
+class GTIN(Item):
 
     type: str
     value: str
 
 
 @attr.s(auto_attribs=True, slots=True)
-class Article:
+class Article(Item):
 
     headline: Optional[str] = None
     datePublished: Optional[str] = None
@@ -67,7 +82,7 @@ class Article:
 
 
 @attr.s(auto_attribs=True, slots=True)
-class Product:
+class Product(Item):
 
     name: Optional[str] = None
     offers: Optional[List[Offer]] = None
