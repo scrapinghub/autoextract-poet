@@ -35,6 +35,13 @@ class AdditionalProperty:
 
 
 @attr.s(auto_attribs=True, slots=True)
+class GTIN:
+
+    type: str
+    value: str
+
+
+@attr.s(auto_attribs=True, slots=True)
 class Article:
 
     headline: Optional[str] = None
@@ -65,7 +72,7 @@ class Product:
     name: Optional[str] = None
     offers: Optional[List[Offer]] = None
     sku: Optional[str] = None
-    gtin: Optional[List[Dict[str, str]]] = None
+    gtin: Optional[List[GTIN]] = None
     mpn: Optional[str] = None
     brand: Optional[str] = None
     breadcrumbs: Optional[List[Breadcrumb]] = None

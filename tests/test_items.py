@@ -5,6 +5,7 @@ from autoextract_poet.items import (
     Breadcrumb,
     Rating,
     AdditionalProperty,
+    GTIN,
     Article,
     Product,
 )
@@ -160,13 +161,28 @@ def test_additional_property(additional_property):
     for key, value in additional_property.items():
         assert getattr(item, key) == value
 
-    # AttributeError: 'Breadcrumb' object has no attribute 'foo'
+    # AttributeError: 'AdditionalProperty' object has no attribute 'foo'
     with pytest.raises(AttributeError):
         item.foo = "bar"
 
     # TypeError: __init__() got an unexpected argument 'foo'
     with pytest.raises(TypeError):
         AdditionalProperty(**additional_property, foo="bar")
+
+
+@pytest.mark.parametrize("gtin", example_product_result["product"]["gtin"])  # type: ignore
+def test_gtin(gtin):
+    item = GTIN(**gtin)
+    for key, value in gtin.items():
+        assert getattr(item, key) == value
+
+    # AttributeError: 'GTIN' object has no attribute 'foo'
+    with pytest.raises(AttributeError):
+        item.foo = "bar"
+
+    # TypeError: __init__() got an unexpected argument 'foo'
+    with pytest.raises(TypeError):
+        GTIN(**gtin, foo="bar")
 
 
 def test_rating():
