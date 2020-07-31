@@ -127,13 +127,13 @@ example_product_result = {
 
 @pytest.mark.parametrize(
     "cls, data",
-    [(Offer, offer) for offer in example_product_result["product"]["offers"]] +
-    [(Breadcrumb, breadcrumb) for breadcrumb in example_product_result["product"]["breadcrumbs"]] +
-    [(AdditionalProperty, additionalProperty) for additionalProperty in example_product_result["product"]["additionalProperty"]] +
-    [(GTIN, gtin) for gtin in example_product_result["product"]["gtin"]] +
-    [(Rating, example_product_result["product"]["aggregateRating"])] +
-    [(Product, example_product_result["product"])] +
-    [(Article, example_article_result["article"])]
+    [(Offer, offer) for offer in example_product_result["product"]["offers"]] +  # type: ignore
+    [(Breadcrumb, breadcrumb) for breadcrumb in example_product_result["product"]["breadcrumbs"]] +  # type: ignore
+    [(AdditionalProperty, additionalProperty) for additionalProperty in example_product_result["product"]["additionalProperty"]] +  # type: ignore
+    [(GTIN, gtin) for gtin in example_product_result["product"]["gtin"]] +  # type: ignore
+    [(Rating, example_product_result["product"]["aggregateRating"])] +  # type: ignore
+    [(Product, example_product_result["product"])] +  # type: ignore
+    [(Article, example_article_result["article"])]  # type: ignore
 )  # type: ignore
 def test_item(cls, data):
     item = cls.from_dict(data)
