@@ -158,3 +158,9 @@ def test_item(cls, data):
     # TypeError: __init__() got an unexpected argument 'foo'
     with pytest.raises(TypeError):
         cls(**data, foo="bar")
+
+    new_data = dict(**data)
+    new_data["foo"] = "bar"
+    # TypeError: __init__() got an unexpected argument 'foo'
+    with pytest.raises(TypeError):
+        cls.from_dict(new_data)
