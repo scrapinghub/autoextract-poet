@@ -125,85 +125,19 @@ example_product_result = {
 }
 
 
-@pytest.mark.parametrize("offer", example_product_result["product"]["offers"])  # type: ignore
-def test_offer(offer):
-    item = Offer.from_dict(offer)
-    for key, value in offer.items():
-        assert getattr(item, key) == value
-
-    # AttributeError: 'Offer' object has no attribute 'foo'
-    with pytest.raises(AttributeError):
-        item.foo = "bar"
-
-    # TypeError: __init__() got an unexpected argument 'foo'
-    with pytest.raises(TypeError):
-        Offer(**offer, foo="bar")
-
-
-@pytest.mark.parametrize("breadcrumb", example_product_result["product"]["breadcrumbs"])  # type: ignore
-def test_breadcrumb(breadcrumb):
-    item = Breadcrumb.from_dict(breadcrumb)
-    for key, value in breadcrumb.items():
-        assert getattr(item, key) == value
-
-    # AttributeError: 'Breadcrumb' object has no attribute 'foo'
-    with pytest.raises(AttributeError):
-        item.foo = "bar"
-
-    # TypeError: __init__() got an unexpected argument 'foo'
-    with pytest.raises(TypeError):
-        Breadcrumb(**breadcrumb, foo="bar")
-
-
-@pytest.mark.parametrize("additional_property", example_product_result["product"]["additionalProperty"])  # type: ignore
-def test_additional_property(additional_property):
-    item = AdditionalProperty.from_dict(additional_property)
-    for key, value in additional_property.items():
-        assert getattr(item, key) == value
-
-    # AttributeError: 'AdditionalProperty' object has no attribute 'foo'
-    with pytest.raises(AttributeError):
-        item.foo = "bar"
-
-    # TypeError: __init__() got an unexpected argument 'foo'
-    with pytest.raises(TypeError):
-        AdditionalProperty(**additional_property, foo="bar")
-
-
-@pytest.mark.parametrize("gtin", example_product_result["product"]["gtin"])  # type: ignore
-def test_gtin(gtin):
-    item = GTIN.from_dict(gtin)
-    for key, value in gtin.items():
-        assert getattr(item, key) == value
-
-    # AttributeError: 'GTIN' object has no attribute 'foo'
-    with pytest.raises(AttributeError):
-        item.foo = "bar"
-
-    # TypeError: __init__() got an unexpected argument 'foo'
-    with pytest.raises(TypeError):
-        GTIN(**gtin, foo="bar")
-
-
-def test_rating():
-    rating = example_product_result["product"]["aggregateRating"]
-    item = Rating.from_dict(rating)
-    for key, value in rating.items():
-        assert getattr(item, key) == value
-
-    # AttributeError: 'Rating' object has no attribute 'foo'
-    with pytest.raises(AttributeError):
-        item.foo = "bar"
-
-    # TypeError: __init__() got an unexpected argument 'foo'
-    with pytest.raises(TypeError):
-        Rating(**rating, foo="bar")
-
-
-def test_product():
-    product = example_product_result["product"]
-    item = Product.from_dict(product)
-    for key, value in product.items():
+@pytest.mark.parametrize(
+    "cls, data",
+    [(Offer, offer) for offer in example_product_result["product"]["offers"]] +
+    [(Breadcrumb, breadcrumb) for breadcrumb in example_product_result["product"]["breadcrumbs"]] +
+    [(AdditionalProperty, additionalProperty) for additionalProperty in example_product_result["product"]["additionalProperty"]] +
+    [(GTIN, gtin) for gtin in example_product_result["product"]["gtin"]] +
+    [(Rating, example_product_result["product"]["aggregateRating"])] +
+    [(Product, example_product_result["product"])] +
+    [(Article, example_article_result["article"])]
+)  # type: ignore
+def test_item(cls, data):
+    item = cls.from_dict(data)
+    for key, value in data.items():
         if key == 'breadcrumbs':
             value = Breadcrumb.from_list(value)
         if key == 'offers':
@@ -217,28 +151,10 @@ def test_product():
 
         assert getattr(item, key) == value
 
-    # AttributeError: 'Product' object has no attribute 'foo'
+    # AttributeError: 'cls' object has no attribute 'foo'
     with pytest.raises(AttributeError):
         item.foo = "bar"
 
     # TypeError: __init__() got an unexpected argument 'foo'
     with pytest.raises(TypeError):
-        Product(**product, foo="bar")
-
-
-def test_article():
-    article = example_article_result["article"]
-    item = Article.from_dict(article)
-    for key, value in article.items():
-        if key == 'breadcrumbs':
-            value = Breadcrumb.from_list(value)
-
-        assert getattr(item, key) == value
-
-    # AttributeError: 'Article' object has no attribute 'foo'
-    with pytest.raises(AttributeError):
-        item.foo = "bar"
-
-    # TypeError: __init__() got an unexpected argument 'foo'
-    with pytest.raises(TypeError):
-        Article(**article, foo="bar")
+        cls(**data, foo="bar")
