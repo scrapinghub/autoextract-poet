@@ -1,19 +1,19 @@
 import pytest
 
 from autoextract_poet.items import (
-    Offer,
-    Breadcrumb,
-    Rating,
     AdditionalProperty,
-    GTIN,
     Article,
+    Breadcrumb,
+    GTIN,
+    Offer,
     Product,
+    Rating,
 )
 
-from tests import load_fixture
+from tests import load_fixture, compare_item_with_dict
 
-example_product_result = load_fixture("sample_product.json")
-example_article_result = load_fixture("sample_article.json")
+example_article_result = load_fixture("sample_article.json")[0]
+example_product_result = load_fixture("sample_product.json")[0]
 
 
 @pytest.mark.parametrize(
@@ -28,19 +28,7 @@ example_article_result = load_fixture("sample_article.json")
 )  # type: ignore
 def test_item(cls, data):
     item = cls.from_dict(data)
-    for key, value in data.items():
-        if key == 'breadcrumbs':
-            value = Breadcrumb.from_list(value)
-        if key == 'offers':
-            value = Offer.from_list(value)
-        if key == 'additionalProperty':
-            value = AdditionalProperty.from_list(value)
-        if key == 'gtin':
-            value = GTIN.from_list(value)
-        if key == 'aggregateRating':
-            value = Rating.from_dict(value)
-
-        assert getattr(item, key) == value
+    assert compare_item_with_dict(item, data)
 
     # AttributeError: 'cls' object has no attribute 'foo'
     with pytest.raises(AttributeError):
