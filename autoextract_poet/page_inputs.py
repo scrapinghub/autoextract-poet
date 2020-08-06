@@ -29,7 +29,7 @@ class _AutoExtractData:
     data: dict
 
     def to_item(self) -> Optional[Item]:
-        return self.item_class.from_dict(self.data)
+        return self.item_class.from_dict(self.data[self.item_key])
 
 
 @attr.s(auto_attribs=True)
