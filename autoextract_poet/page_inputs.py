@@ -10,7 +10,7 @@ from autoextract_poet.items import (
 
 
 @attr.s(auto_attribs=True)
-class ResponseData:
+class _ResponseData:
     """Container for AutoExtract response data.
 
     Should not be used directly by providers.
@@ -38,7 +38,7 @@ class ResponseData:
 
 
 @attr.s(auto_attribs=True)
-class ArticleResponseData(ResponseData):
+class ArticleResponseData(_ResponseData):
     """Container for AutoExtract Article response data.
 
     https://doc.scrapinghub.com/autoextract/article.html
@@ -49,7 +49,7 @@ class ArticleResponseData(ResponseData):
 
 
 @attr.s(auto_attribs=True)
-class ProductResponseData(ResponseData):
+class ProductResponseData(_ResponseData):
     """Container for AutoExtract Product response data.
 
     https://doc.scrapinghub.com/autoextract/product.html
