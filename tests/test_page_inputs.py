@@ -11,13 +11,12 @@ example_article_result = load_fixture("sample_article.json")
 example_product_result = load_fixture("sample_product.json")
 
 
-@pytest.mark.parametrize("cls, results", [
-    (AutoExtractArticleData, example_article_result),
-    (AutoExtractProductData, example_product_result),
+@pytest.mark.parametrize("cls, results, page_type", [
+    (AutoExtractArticleData, example_article_result, "article"),
+    (AutoExtractProductData, example_product_result, "product"),
 ])
-def test_response_data(cls, results):
-    response_data = cls(results)
-    items = response_data.to_items()
-    assert len(items) == 1
-    assert type(items[0]) == cls.item_class
-    assert compare_item_with_dict(items[0], results[0][cls.item_key])
+def test_response_data(cls, results, page_type):
+    response_data = cls(results[0][page_type])
+    item = response_data.to_item()
+    assert isinstance(item, cls.item_class)
+    assert compare_item_with_dict(item, results[0][cls.item_key])

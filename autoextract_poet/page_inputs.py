@@ -1,4 +1,4 @@
-from typing import ClassVar, List, Optional, Type
+from typing import ClassVar, Optional, Type
 
 import attr
 
@@ -14,10 +14,11 @@ class _AutoExtractData:
     """Container for AutoExtract data.
 
     Should not be used directly by providers.
-    Use derived classes like ArticleResponseData and similar.
+    Use derived classes like AutoExtractArticleData and similar.
 
     API responses are wrapped in a JSON array
-    (this is to facilitate query batching).
+    (this is to facilitate query batching)
+    but we're receiving single responses here..
 
     https://doc.scrapinghub.com/autoextract.html#responses
     """
@@ -27,14 +28,8 @@ class _AutoExtractData:
 
     data: dict
 
-    def to_items(self) -> Optional[List[Item]]:
-        return self.item_class.from_list(
-            [
-                query_result[self.item_key]
-                for query_result in self.data
-                if "error" not in query_result
-            ]
-        )
+    def to_item(self) -> Optional[Item]:
+        return self.item_class.from_dict(self.data)
 
 
 @attr.s(auto_attribs=True)
