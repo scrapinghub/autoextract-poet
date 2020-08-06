@@ -1,8 +1,8 @@
 import pytest
 
 from autoextract_poet.page_inputs import (
-    ArticleResponseData,
-    ProductResponseData,
+    AutoExtractArticleData,
+    AutoExtractProductData,
 )
 
 from tests import load_fixture, compare_item_with_dict
@@ -12,8 +12,8 @@ example_product_result = load_fixture("sample_product.json")
 
 
 @pytest.mark.parametrize("cls, results", [
-    (ArticleResponseData, example_article_result),
-    (ProductResponseData, example_product_result),
+    (AutoExtractArticleData, example_article_result),
+    (AutoExtractProductData, example_product_result),
 ])
 def test_response_data(cls, results):
     response_data = cls(results)

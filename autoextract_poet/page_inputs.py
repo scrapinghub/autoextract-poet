@@ -38,8 +38,8 @@ class _ResponseData:
 
 
 @attr.s(auto_attribs=True)
-class ArticleResponseData(_ResponseData):
-    """Container for AutoExtract Article response data.
+class AutoExtractArticleData(_ResponseData):
+    """Container for AutoExtract Article data.
 
     https://doc.scrapinghub.com/autoextract/article.html
     """
@@ -49,8 +49,8 @@ class ArticleResponseData(_ResponseData):
 
 
 @attr.s(auto_attribs=True)
-class ProductResponseData(_ResponseData):
-    """Container for AutoExtract Product response data.
+class AutoExtractProductData(_ResponseData):
+    """Container for AutoExtract Product data.
 
     https://doc.scrapinghub.com/autoextract/product.html
     """
