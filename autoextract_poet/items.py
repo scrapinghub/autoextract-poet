@@ -14,10 +14,10 @@ class Item:
     def _get_attr_cls(cls, annotation):
         """Inspect type annotation searching for a subclass of Item"""
         if type(annotation) is type:
-            # Annotation is a class/type
+            # Annotation is a non-generic class/type
             return annotation if issubclass(annotation, Item) else None
 
-        # Annotation is probably a typing instance
+        # Annotation is probably a generic type, let's inspect its args
         for arg in annotation.__args__:
             attr_cls = cls._get_attr_cls(arg)
             if attr_cls:
