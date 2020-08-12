@@ -24,7 +24,7 @@ class Item:
                 return attr_cls
 
     def __attrs_post_init__(self):
-        for attribute in self.__attrs_attrs__:
+        for attribute in attr.fields(self.__class__):
             annotation = self.__annotations__.get(attribute.name)
             attr_cls = self._get_attr_cls(annotation)
             if not attr_cls:
