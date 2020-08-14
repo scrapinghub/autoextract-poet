@@ -24,12 +24,12 @@ class _AutoExtractData:
     """
 
     item_class: ClassVar[Type[Item]]
-    item_key: ClassVar[str]
+    _item_key: ClassVar[str]
 
     data: dict
 
     def to_item(self) -> Optional[Item]:
-        return self.item_class.from_dict(self.data[self.item_key])
+        return self.item_class.from_dict(self.data[self._item_key])
 
 
 @attr.s(auto_attribs=True)
@@ -40,7 +40,7 @@ class AutoExtractArticleData(_AutoExtractData):
     """
 
     item_class = Article
-    item_key = "article"
+    _item_key = "article"
 
 
 @attr.s(auto_attribs=True)
@@ -51,4 +51,4 @@ class AutoExtractProductData(_AutoExtractData):
     """
 
     item_class = Product
-    item_key = "product"
+    _item_key = "product"
