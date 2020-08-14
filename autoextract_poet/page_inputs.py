@@ -1,4 +1,4 @@
-from typing import ClassVar, Optional, Type
+from typing import ClassVar, Generic, Optional, Type, TypeVar
 
 import attr
 
@@ -8,9 +8,11 @@ from autoextract_poet.items import (
     Product,
 )
 
+T = TypeVar("T", bound=Item)
+
 
 @attr.s(auto_attribs=True)
-class _AutoExtractData:
+class _AutoExtractData(Generic[T]):
     """Container for AutoExtract data.
 
     Should not be used directly by providers.
@@ -23,17 +25,17 @@ class _AutoExtractData:
     https://doc.scrapinghub.com/autoextract.html#responses
     """
 
-    item_class: ClassVar[Type[Item]]
+    item_class: ClassVar[Type[T]]
     _item_key: ClassVar[str]
 
     data: dict
 
-    def to_item(self) -> Optional[Item]:
+    def to_item(self) -> Optional[T]:
         return self.item_class.from_dict(self.data[self._item_key])
 
 
 @attr.s(auto_attribs=True)
-class AutoExtractArticleData(_AutoExtractData):
+class AutoExtractArticleData(_AutoExtractData[Article]):
     """Container for AutoExtract Article data.
 
     https://doc.scrapinghub.com/autoextract/article.html
@@ -44,7 +46,7 @@ class AutoExtractArticleData(_AutoExtractData):
 
 
 @attr.s(auto_attribs=True)
-class AutoExtractProductData(_AutoExtractData):
+class AutoExtractProductData(_AutoExtractData[Product]):
     """Container for AutoExtract Product data.
 
     https://doc.scrapinghub.com/autoextract/product.html
