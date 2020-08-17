@@ -20,11 +20,8 @@ def load_fixture(name):
         return json.loads(f.read())
 
 
-def compare_item_with_dict(item: Item, data: dict):
-    """Compare an Item with the dict that could have originated it.
-
-    Return True if they're equivalent or False otherwise.
-    """
+def item_equals_dict(item: Item, data: dict) -> bool:
+    """Return True if Item and Dict are equivalent or False otherwise."""
     for key, value in data.items():
         if key == 'additionalProperty':
             value = AdditionalProperty.from_list(value)

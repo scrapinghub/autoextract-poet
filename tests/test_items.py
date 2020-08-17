@@ -10,7 +10,7 @@ from autoextract_poet.items import (
     Rating,
 )
 
-from tests import load_fixture, compare_item_with_dict
+from tests import load_fixture, item_equals_dict
 
 example_article_result = load_fixture("sample_article.json")[0]
 example_product_result = load_fixture("sample_product.json")[0]
@@ -28,7 +28,7 @@ example_product_result = load_fixture("sample_product.json")[0]
 )  # type: ignore
 def test_item(cls, data):
     item = cls.from_dict(data)
-    assert compare_item_with_dict(item, data)
+    assert item_equals_dict(item, data)
 
     # AttributeError: 'cls' object has no attribute 'foo'
     with pytest.raises(AttributeError):
