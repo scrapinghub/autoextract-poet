@@ -25,10 +25,13 @@ class _AutoExtractData(Generic[T]):
     https://doc.scrapinghub.com/autoextract.html#responses
     """
 
-    item_class: ClassVar[Type[T]]
     _item_key: ClassVar[str]
 
     data: dict
+
+    @property
+    def item_class(self):
+        return self.__orig_bases__[0].__args__[0]
 
     def to_item(self) -> Optional[T]:
         return self.item_class.from_dict(self.data[self._item_key])
@@ -41,7 +44,6 @@ class AutoExtractArticleData(_AutoExtractData[Article]):
     https://doc.scrapinghub.com/autoextract/article.html
     """
 
-    item_class = Article
     _item_key = "article"
 
 
@@ -52,5 +54,4 @@ class AutoExtractProductData(_AutoExtractData[Product]):
     https://doc.scrapinghub.com/autoextract/product.html
     """
 
-    item_class = Product
     _item_key = "product"
