@@ -1,4 +1,4 @@
-from typing import ClassVar, Generic, Optional, Type, TypeVar
+from typing import ClassVar, Generic, Optional, TypeVar
 
 import attr
 
