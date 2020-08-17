@@ -19,4 +19,4 @@ def test_response_data(cls, results):
     response_data = cls(results[0])
     item = response_data.to_item()
     assert isinstance(item, response_data.item_class)
-    assert item_equals_dict(item, results[0][cls._item_key])
+    assert item_equals_dict(item, results[0][cls.item_key])
