@@ -1,21 +1,31 @@
 language: python
 branches:
   only:
-    - master
-    - /^\d\.\d+$/
-    - /^\d\.\d+\.\d+(rc\d+|\.dev\d+)?$/
+  - master
+  - "/^\\d\\.\\d+$/"
+  - "/^\\d\\.\\d+\\.\\d+(rc\\d+|\\.dev\\d+)?$/"
 matrix:
   include:
-    - python: 3.6
-      env: TOXENV=py36
-    - python: 3.7
-      env: TOXENV=py37
-    - python: 3.8
-      env: TOXENV=py38
-    - python: 3.8
-      env: TOXENV=mypy
+  - python: 3.6
+    env: TOXENV=py36
+  - python: 3.7
+    env: TOXENV=py37
+  - python: 3.8
+    env: TOXENV=py38
+  - python: 3.8
+    env: TOXENV=mypy
 install:
-  - pip install -U tox codecov
+- pip install -U tox codecov
 script: tox
 after_success:
-  - codecov
+- codecov
+deploy:
+  provider: pypi
+  user: "__token__"
+  distributions: sdist bdist_wheel
+  password:
+    secure: N3U238e+Ol2oQ97EA5E1ZLloNpgvxEayprbEWR/E/JliOQnptKffwhet9tYtriwLRBNMYtr3R+Jv+zb5uK0g3BsS2racbTHbiNNoSRd1/ke2uLi6Yx5TAgAWFkndqmTIESouhjJswGtbf0+5hcUdZsHBPqXZ4QH6P2hQ1G/5mmcggi5O5NzF9nZrs7nQoLPjY7c//dbyEReRejlDlBtq2H0JNeAbynjBIhsIbwLlWK9a1Gagg+QNENK/G5Tedeeen3Lvcu2nHHNX9do79a4NWoRxqa+lYYPk36FPc0RM/RSbsbKelhxIQnJfjeS+y9dFG3Q2XkQg+x18RyHyrK8vUkSNM+QsWi/Sz6XAaxUSHOPF5vfejjLZ03ha+NOIGtELwolSdzPPQ59zwUtmL4olB+GCQBZXg3qqIjW048iwCTFVu/4gEcqxdWXDH/uVN0Zt1cAHloxqbT3JVf6W8zsVKlWxX5wgwvcWqwyAUgTmd8J0oWMtM9zXD0sj5uzFxHySc4LU3jx77SVsw3PxQqx6iXisZRz8altM/UlAhgFlJem9jGQO6aXphYVac2ZtA55zzRi+b2eyV38L9wqV0DEt4Ut59BRzohLpIbokCo/Z5GOCeTAYh+JgcseD5ECmWfnxVfJjX/SMYvA10kqV+t5hLVmkQDQZ1P9G47ab7236/O0=
+  on:
+    tags: true
+    repo: scrapinghub/autoextract-poet
+    condition: $TOXENV == py36
