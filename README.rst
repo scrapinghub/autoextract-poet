@@ -18,10 +18,6 @@ autoextract-poet
    :target: https://codecov.io/gh/scrapinghub/autoextract-poet
    :alt: Coverage report
 
-.. image:: https://readthedocs.org/projects/autoextract-poet/badge/?version=latest
-   :target: https://autoextract-poet.readthedocs.io/en/latest/?badge=latest
-   :alt: Documentation Status
-
 .. warning::
     Current status is "experimental".
 
