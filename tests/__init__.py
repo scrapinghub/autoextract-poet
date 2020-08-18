@@ -1,6 +1,15 @@
 import json
 import os
 
+from autoextract_poet.items import (
+    AdditionalProperty,
+    Breadcrumb,
+    Item,
+    GTIN,
+    Offer,
+    Rating,
+)
+
 
 def load_fixture(name):
     path = os.path.join(
@@ -9,3 +18,23 @@ def load_fixture(name):
     )
     with open(path, 'r') as f:
         return json.loads(f.read())
+
+
+def item_equals_dict(item: Item, data: dict) -> bool:
+    """Return True if Item and Dict are equivalent or False otherwise."""
+    for key, value in data.items():
+        if key == 'additionalProperty':
+            value = AdditionalProperty.from_list(value)
+        if key == 'aggregateRating':
+            value = Rating.from_dict(value)
+        if key == 'breadcrumbs':
+            value = Breadcrumb.from_list(value)
+        if key == 'gtin':
+            value = GTIN.from_list(value)
+        if key == 'offers':
+            value = Offer.from_list(value)
+
+        if getattr(item, key) != value:
+            return False
+
+    return True

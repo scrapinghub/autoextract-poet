@@ -1,51 +1,57 @@
-{
+[
+  {
     "article": {
-        "headline": "Article headline",
-        "datePublished": "2019-06-19T00:00:00",
-        "datePublishedRaw": "June 19, 2019",
-        "dateModified": "2019-06-21T00:00:00",
-        "dateModifiedRaw": "June 21, 2019",
-        "author": "Article author",
-        "authorsList": [
-            "Article author"
-        ],
-        "inLanguage": "en",
-        "breadcrumbs": [
-            {
-                "name": "Level 1",
-                "link": "http://example.com"
-            }
-        ],
-        "mainImage": "http://example.com/image.png",
-        "images": [
-            "http://example.com/image.png"
-        ],
-        "description": "Article summary",
-        "articleBody": "Article body ...",
-        "articleBodyHtml": "<article><p>Article body ... </p> ... </article>",
-        "articleBodyRaw": "<div id=\"an-article\">Article body ...",
-        "videoUrls": [
-            "https://example.com/video.mp4"
-        ],
-        "audioUrls": [
-            "https://example.com/audio.mp3"
-        ],
-        "probability": 0.95,
-        "canonicalUrl": "https://example.com/article/article-about-something",
-        "url": "https://example.com/article?id=24"
+      "headline": "Article headline",
+      "datePublished": "2019-06-19T00:00:00",
+      "datePublishedRaw": "June 19, 2019",
+      "dateModified": "2019-06-21T00:00:00",
+      "dateModifiedRaw": "June 21, 2019",
+      "author": "Article author",
+      "authorsList": [
+        "Article author"
+      ],
+      "inLanguage": "en",
+      "breadcrumbs": [
+        {
+          "name": "Level 1",
+          "link": "http://example.com"
+        }
+      ],
+      "mainImage": "http://example.com/image.png",
+      "images": [
+        "http://example.com/image.png"
+      ],
+      "description": "Article summary",
+      "articleBody": "Article body ...",
+      "articleBodyHtml": "<article><p>Article body ... </p> ... </article>",
+      "articleBodyRaw": "<div id=\"an-article\">Article body ...",
+      "videoUrls": [
+        "https://example.com/video.mp4"
+      ],
+      "audioUrls": [
+        "https://example.com/audio.mp3"
+      ],
+      "probability": 0.95,
+      "canonicalUrl": "https://example.com/article/article-about-something",
+      "url": "https://example.com/article?id=24"
     },
     "webPage": {
-        "inLanguages": [
-            {"code": "en"},
-            {"code": "es"}
-        ]
+      "inLanguages": [
+        {
+          "code": "en"
+        },
+        {
+          "code": "es"
+        }
+      ]
     },
     "query": {
-        "id": "1564747029122-9e02a1868d70b7a3",
-        "domain": "example.com",
-        "userQuery": {
-            "pageType": "article",
-            "url": "http://example.com/article?id=24"
-        }
+      "id": "1564747029122-9e02a1868d70b7a3",
+      "domain": "example.com",
+      "userQuery": {
+        "pageType": "article",
+        "url": "http://example.com/article?id=24"
+      }
     }
-}
+  }
+]
