@@ -11,7 +11,12 @@ def auto_extract_html():
     return AutoExtractHtml(url, html)
 
 
-@pytest.mark.parametrize("cls", [AutoExtractWebPage, AutoExtractItemWebPage])
+class ConcreteItemWebPage(AutoExtractItemWebPage):
+    def to_item(self):
+        return "yeah!"
+
+
+@pytest.mark.parametrize("cls", [AutoExtractWebPage, ConcreteItemWebPage])
 def test_auto_extract_web_page_family(auto_extract_html, cls):
     page = cls(auto_extract_html)
     assert  page.response == auto_extract_html
@@ -21,9 +26,4 @@ def test_auto_extract_web_page_family(auto_extract_html, cls):
 def test_auto_extract_item_web_page(auto_extract_html):
     with pytest.raises(TypeError):
         AutoExtractItemWebPage(auto_extract_html).to_item()
-
-    class ItemWebPage(AutoExtractItemWebPage):
-        def to_item(self):
-            return "yeah!"
-
-    assert ItemWebPage(auto_extract_html).to_item() == "yeah!"
+    assert ConcreteItemWebPage(auto_extract_html).to_item() == "yeah!"
