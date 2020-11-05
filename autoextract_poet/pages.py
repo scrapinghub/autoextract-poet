@@ -1,7 +1,7 @@
 import attr
 
 from autoextract_poet.page_inputs import AutoExtractHtml
-from web_poet import Injectable
+from web_poet import Injectable, ItemPage
 from web_poet.mixins import ResponseShortcutsMixin
 
 
@@ -14,3 +14,11 @@ class AutoExtractWebPage(Injectable, ResponseShortcutsMixin):
     the browser HTML provided by AutoExtract.
     """
     response: AutoExtractHtml
+
+
+@attr.s(auto_attribs=True)
+class AutoExtractItemWebPage(AutoExtractWebPage, ItemPage):
+    """:class:`AutoExtractWebPage` that requires the :meth:`to_item` method to
+    be implemented.
+    """
+    pass
