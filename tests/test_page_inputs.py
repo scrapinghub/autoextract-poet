@@ -1,8 +1,9 @@
 import pytest
 
-from autoextract_poet.page_inputs import (
+from autoextract_poet import (
     AutoExtractArticleData,
-    AutoExtractProductData, AutoExtractHtml,
+    AutoExtractProductData,
+    AutoExtractHtml,
 )
 
 from tests import load_fixture, item_equals_dict

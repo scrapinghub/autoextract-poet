@@ -1,7 +1,10 @@
 import pytest
 
-from autoextract_poet.page_inputs import AutoExtractHtml
-from autoextract_poet.pages import AutoExtractWebPage, AutoExtractItemWebPage
+from autoextract_poet import (
+    AutoExtractHtml,
+    AutoExtractWebPage,
+    AutoExtractItemWebPage,
+)
 
 
 @pytest.fixture
