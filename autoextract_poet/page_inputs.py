@@ -8,6 +8,22 @@ from autoextract_poet.items import (
     Product,
 )
 
+
+@attr.s(auto_attribs=True)
+class AutoExtractHtml:
+    """A container for URL and HTML content retrieved from AutoExtract.
+
+    ``url`` should be an URL of the response (after all redirects),
+    not an URL of the request, if possible.
+
+    ``html`` should be browser HTML, converted to unicode
+    using the detected encoding of the response, preferably according
+    to the web browser rules (respecting Content-Type header, etc.)
+    """
+    url: str
+    html: str
+
+
 T = TypeVar("T", bound=Item)
 
 
