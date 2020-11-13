@@ -16,9 +16,7 @@ class AutoExtractHtml:
     ``url`` should be an URL of the response (after all redirects),
     not an URL of the request, if possible.
 
-    ``html`` should be browser HTML, converted to unicode
-    using the detected encoding of the response, preferably according
-    to the web browser rules (respecting Content-Type header, etc.)
+    ``html`` should be browser HTML
     """
     url: str
     html: str
@@ -28,7 +26,7 @@ T = TypeVar("T", bound=Item)
 
 
 @attr.s(auto_attribs=True)
-class _AutoExtractData(Generic[T]):
+class AutoExtractData(Generic[T]):
     """Container for AutoExtract data.
 
     Should not be used directly by providers.
@@ -54,7 +52,7 @@ class _AutoExtractData(Generic[T]):
 
 
 @attr.s(auto_attribs=True)
-class AutoExtractArticleData(_AutoExtractData[Article]):
+class AutoExtractArticleData(AutoExtractData[Article]):
     """Container for AutoExtract Article data.
 
     https://doc.scrapinghub.com/autoextract/article.html
@@ -64,7 +62,7 @@ class AutoExtractArticleData(_AutoExtractData[Article]):
 
 
 @attr.s(auto_attribs=True)
-class AutoExtractProductData(_AutoExtractData[Product]):
+class AutoExtractProductData(AutoExtractData[Product]):
     """Container for AutoExtract Product data.
 
     https://doc.scrapinghub.com/autoextract/product.html
