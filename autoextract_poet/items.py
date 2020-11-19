@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 import attr
 
@@ -7,12 +7,45 @@ import attr
 class Item:
 
     @classmethod
-    def from_dict(cls, item: Optional[Dict]):
-        return cls(**item) if item else None  # type: ignore
+    def from_dict(cls, item: dict):
+        return cls(**item)  # type: ignore
 
     @classmethod
-    def from_list(cls, items: List[Dict]):
-        return [cls.from_dict(item) for item in items if item]
+    def _get_attr_cls(cls, annotation):
+        """Inspect type annotation searching for a subclass of Item"""
+        if type(annotation) is type:
+            # Annotation is a non-generic class/type
+            return annotation if issubclass(annotation, Item) else None
+
+        # Annotation is probably a generic type, let's inspect its args
+        for arg in annotation.__args__:
+            attr_cls = cls._get_attr_cls(arg)
+            if attr_cls:
+                return attr_cls
+
+    def __attrs_post_init__(self):
+        for attribute in attr.fields(self.__class__):
+            annotation = self.__annotations__.get(attribute.name)
+            attr_cls = self._get_attr_cls(annotation)
+            if not attr_cls:
+                # Annotation does not mention an Item subclass
+                continue
+
+            def get_new_value(value):
+                if isinstance(value, dict):
+                    # We can build an instance from a dict
+                    return attr_cls.from_dict(value)
+                else:
+                    # Nothing to do here
+                    return value
+
+            value = getattr(self, attribute.name, None)
+            if isinstance(value, (list, tuple, )):
+                new_value = list(map(get_new_value, value))
+            else:
+                new_value = get_new_value(value)
+
+            setattr(self, attribute.name, new_value)
 
 
 @attr.s(auto_attribs=True, slots=True)
@@ -77,18 +110,6 @@ class Article(Item):
     canonicalUrl: Optional[str] = None
     url: Optional[str] = None
 
-    @classmethod
-    def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
-        ))
-
-        return super().from_dict(new_item)
-
 
 @attr.s(auto_attribs=True, slots=True)
 class Product(Item):
@@ -107,20 +128,3 @@ class Product(Item):
     url: Optional[str] = None
     additionalProperty: Optional[List[AdditionalProperty]] = None
     aggregateRating: Optional[Rating] = None
-
-    @classmethod
-    def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            additionalProperty=AdditionalProperty.from_list(
-                item.get("additionalProperty", [])),
-            aggregateRating=Rating.from_dict(item.get("aggregateRating")),
-            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
-            gtin=GTIN.from_list(item.get("gtin", [])),
-            offers=Offer.from_list(item.get("offers", [])),
-        ))
-
-        return super().from_dict(new_item)
