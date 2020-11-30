@@ -1,14 +1,7 @@
+import contextlib
 import json
 import os
-
-from autoextract_poet.items import (
-    AdditionalProperty,
-    Breadcrumb,
-    Item,
-    GTIN,
-    Offer,
-    Rating,
-)
+import random
 
 
 def load_fixture(name):
@@ -20,21 +13,22 @@ def load_fixture(name):
         return json.loads(f.read())
 
 
-def item_equals_dict(item: Item, data: dict) -> bool:
-    """Return True if Item and Dict are equivalent or False otherwise."""
-    for key, value in data.items():
-        if key == 'additionalProperty':
-            value = AdditionalProperty.from_list(value)
-        if key == 'aggregateRating':
-            value = Rating.from_dict(value)
-        if key == 'breadcrumbs':
-            value = Breadcrumb.from_list(value)
-        if key == 'gtin':
-            value = GTIN.from_list(value)
-        if key == 'offers':
-            value = Offer.from_list(value)
+@contextlib.contextmanager
+def temp_seed(seed):
+    state = random.getstate()
+    random.seed(seed)
+    try:
+        yield
+    finally:
+        random.setstate(state)
 
-        if getattr(item, key) != value:
-            return False
 
-    return True
+def crazy_monkey_nullify(data, drop_prob=0.5):
+    if isinstance(data, list):
+        return [crazy_monkey_nullify(value, drop_prob) for value in data]
+    elif isinstance(data, dict):
+        return {k: (None if drop_prob <= random.random()
+                    else crazy_monkey_nullify(v, drop_prob))
+                for k, v in data.items()}
+    else:
+        return data

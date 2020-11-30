@@ -5,7 +5,7 @@ import attr
 from autoextract_poet.items import (
     Article,
     Item,
-    Product,
+    Product, ProductList,
 )
 
 
@@ -38,17 +38,20 @@ class AutoExtractData(Generic[T]):
 
     https://doc.scrapinghub.com/autoextract.html#responses
     """
-
-    item_key: ClassVar[str]
-
+    page_type: ClassVar[str]
     data: dict
+    _item: Optional[T] = attr.ib(init=False, repr=False)
+
+    def __attrs_post_init__(self):
+        # Caching item to avoid building it again and again
+        self._item = self.item_class.from_dict(self.data[self.page_type])
 
     @property
     def item_class(self):
         return self.__orig_bases__[0].__args__[0]
 
     def to_item(self) -> Optional[T]:
-        return self.item_class.from_dict(self.data[self.item_key])
+        return self._item
 
 
 @attr.s(auto_attribs=True)
@@ -57,8 +60,7 @@ class AutoExtractArticleData(AutoExtractData[Article]):
 
     https://doc.scrapinghub.com/autoextract/article.html
     """
-
-    item_key = "article"
+    page_type = "article"
 
 
 @attr.s(auto_attribs=True)
@@ -67,5 +69,13 @@ class AutoExtractProductData(AutoExtractData[Product]):
 
     https://doc.scrapinghub.com/autoextract/product.html
     """
+    page_type = "product"
 
-    item_key = "product"
+
+@attr.s(auto_attribs=True)
+class AutoExtractProductListData(AutoExtractData[ProductList]):
+    """Container for AutoExtract Product list data.
+
+    https://doc.scrapinghub.com/autoextract/product_list.html
+    """
+    page_type = "productList"
