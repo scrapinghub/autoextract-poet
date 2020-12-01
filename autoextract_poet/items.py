@@ -10,12 +10,19 @@ class Item:
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        # Ensuring new attributes don't break old libraries
+        """
+        Read an item from a dictionary, ignoring unknown attributes for
+        backwards compatibility
+        """
         item = attr_prepare(item, cls)
         return cls(**item) if item else None  # type: ignore
 
     @classmethod
-    def from_list(cls, items: Optional[List[Dict]]):
+    def from_list(cls, items: Optional[List[Dict]]) -> Optional[List]:
+        """
+        Read items from a list, ignoring unknown attributes for
+        backwards compatibility, and filtering out ``None`` attributes
+        """
         return [cls.from_dict(item) for item in items or [] if item] or None
 
 
