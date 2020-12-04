@@ -18,12 +18,12 @@ class Item:
         return cls(**item) if item else None  # type: ignore
 
     @classmethod
-    def from_list(cls, items: Optional[List[Dict]]) -> Optional[List]:
+    def from_list(cls, items: Optional[List[Dict]]) -> List:
         """
         Read items from a list, ignoring unknown attributes for
         backwards compatibility, and filtering out ``None`` attributes
         """
-        return [cls.from_dict(item) for item in items or [] if item] or None
+        return [cls.from_dict(item) for item in items or [] if item]
 
 
 @attr.s(auto_attribs=True, slots=True)
@@ -67,26 +67,27 @@ class GTIN(Item):
 @attr.s(auto_attribs=True, slots=True)
 class Article(Item):
 
+    url: Optional[str] = None
+    probability: Optional[float] = None
     headline: Optional[str] = None
     datePublished: Optional[str] = None
     datePublishedRaw: Optional[str] = None
     dateModified: Optional[str] = None
     dateModifiedRaw: Optional[str] = None
     author: Optional[str] = None
-    authorsList: Optional[List[str]] = None
+    authorsList: List[str] = attr.Factory(list)
     inLanguage: Optional[str] = None
-    breadcrumbs: Optional[List[Breadcrumb]] = None
+    breadcrumbs: List[Breadcrumb] = attr.Factory(list)
     mainImage: Optional[str] = None
-    images: Optional[List[str]] = None
+    images: List[str] = attr.Factory(list)
     description: Optional[str] = None
     articleBody: Optional[str] = None
     articleBodyHtml: Optional[str] = None
     articleBodyRaw: Optional[str] = None
-    videoUrls: Optional[List[str]] = None
-    audioUrls: Optional[List[str]] = None
-    probability: Optional[float] = None
+    videoUrls: List[str] = attr.Factory(list)
+    audioUrls: List[str] = attr.Factory(list)
     canonicalUrl: Optional[str] = None
-    url: Optional[str] = None
+
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
@@ -104,19 +105,19 @@ class Article(Item):
 @attr.s(auto_attribs=True, slots=True)
 class Product(Item):
 
+    url: Optional[str] = None
+    probability: Optional[float] = None
     name: Optional[str] = None
-    offers: Optional[List[Offer]] = None
+    offers: List[Offer] = attr.Factory(list)
     sku: Optional[str] = None
-    gtin: Optional[List[GTIN]] = None
+    gtin: List[GTIN] = attr.Factory(list)
     mpn: Optional[str] = None
     brand: Optional[str] = None
-    breadcrumbs: Optional[List[Breadcrumb]] = None
+    breadcrumbs: List[Breadcrumb] = attr.Factory(list)
     mainImage: Optional[str] = None
-    images: Optional[List[str]] = None
+    images: List[str] = attr.Factory(list)
     description: Optional[str] = None
-    probability: Optional[float] = None
-    url: Optional[str] = None
-    additionalProperty: Optional[List[AdditionalProperty]] = None
+    additionalProperty: List[AdditionalProperty] = attr.Factory(list)
     aggregateRating: Optional[Rating] = None
 
     @classmethod
@@ -140,16 +141,16 @@ class Product(Item):
 @attr.s(auto_attribs=True, slots=True)
 class ProductFromList(Item):
 
+    probability: Optional[float] = None
+    url: Optional[str] = None
     name: Optional[str] = None
-    offers: Optional[List[Offer]] = None
+    offers: List[Offer] = attr.Factory(list)
     sku: Optional[str] = None
     brand: Optional[str] = None
     mainImage: Optional[str] = None
-    images: Optional[List[str]] = None
+    images: List[str] = attr.Factory(list)
     description: Optional[str] = None
     aggregateRating: Optional[Rating] = None
-    probability: Optional[float] = None
-    url: Optional[str] = None
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
@@ -176,8 +177,8 @@ class PaginationLink(Item):
 class ProductList(Item):
 
     url: Optional[str] = None
-    products: Optional[List[ProductFromList]] = None
-    breadcrumbs: Optional[List[Breadcrumb]] = None
+    products: List[ProductFromList] = attr.Factory(list)
+    breadcrumbs: List[Breadcrumb] = attr.Factory(list)
     paginationNext: Optional[PaginationLink] = None
     paginationPrevious: Optional[PaginationLink] = None
 
