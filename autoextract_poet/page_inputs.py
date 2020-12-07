@@ -16,7 +16,7 @@ class AutoExtractHtml:
     ``url`` should be an URL of the response (after all redirects),
     not an URL of the request, if possible.
 
-    ``html`` should be browser HTML
+    ``html`` should be browser HTML in unicode
     """
     url: str
     html: str
