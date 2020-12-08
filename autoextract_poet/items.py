@@ -45,9 +45,9 @@ class Breadcrumb(Item):
 @attr.s(auto_attribs=True, slots=True)
 class Rating(Item):
 
-    ratingValue: Optional[float]
-    bestRating: Optional[float]
-    reviewCount: Optional[int]
+    ratingValue: Optional[float] = None
+    bestRating: Optional[float] = None
+    reviewCount: Optional[int] = None
 
 
 @attr.s(auto_attribs=True, slots=True)
@@ -169,8 +169,8 @@ class ProductFromList(Item):
 @attr.s(auto_attribs=True, slots=True)
 class PaginationLink(Item):
 
-    url: Optional[str]
-    text: Optional[str]
+    url: Optional[str] = None
+    text: Optional[str] = None
 
 
 @attr.s(auto_attribs=True, slots=True)
