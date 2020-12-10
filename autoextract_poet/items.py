@@ -21,9 +21,9 @@ class Item:
     def from_list(cls, items: Optional[List[Dict]]) -> List:
         """
         Read items from a list, ignoring unknown attributes for
-        backwards compatibility, and filtering out ``None`` attributes
+        backwards compatibility
         """
-        return [cls.from_dict(item) for item in items or [] if item]
+        return [cls.from_dict(item) for item in items or []]
 
 
 @attr.s(auto_attribs=True, slots=True)

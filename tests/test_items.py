@@ -8,7 +8,7 @@ from autoextract_poet.items import (
     GTIN,
     Offer,
     Product,
-    Rating, ProductList, PaginationLink,
+    Rating, ProductList, PaginationLink, Item,
 )
 
 from tests import load_fixture, temp_seed, crazy_monkey_nullify
@@ -47,3 +47,17 @@ def test_item(cls, data):
     # TypeError: __init__() got an unexpected argument 'foo'
     with pytest.raises(TypeError):
         cls(**data, foo="bar")
+
+
+def test_from_list():
+
+    @attr.s(auto_attribs=True, slots=True)
+    class Number(Item):
+        value: int
+
+    actual = Number.from_list([None, dict(value=1), None, dict(value=2)])
+    expected = [None, Number(1), None, Number(2)]
+    assert actual == expected
+
+    assert Number.from_list(None) == []
+    assert Number.from_list([]) == []
