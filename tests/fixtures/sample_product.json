@@ -5,6 +5,7 @@
       "offers": [
         {
           "price": "42",
+          "regularPrice": "52",
           "currency": "USD",
           "availability": "InStock"
         }
