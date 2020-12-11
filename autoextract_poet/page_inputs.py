@@ -40,18 +40,13 @@ class AutoExtractData(Generic[T]):
     """
     page_type: ClassVar[str]
     data: dict
-    _item: Optional[T] = attr.ib(init=False, repr=False)
-
-    def __attrs_post_init__(self):
-        # Caching item to avoid building it again and again
-        self._item = self.item_class.from_dict(self.data[self.page_type])
 
     @property
     def item_class(self):
         return self.__orig_bases__[0].__args__[0]
 
     def to_item(self) -> Optional[T]:
-        return self._item
+        return self.item_class.from_dict(self.data[self.page_type])
 
 
 @attr.s(auto_attribs=True)
