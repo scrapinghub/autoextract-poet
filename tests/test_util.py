@@ -10,7 +10,7 @@ class TestItem:
     k2: int
 
 
-def test_attr_prepare():
+def test_remove_unknown_fields():
     expected = dict(k1=1, k2=2)
     prep1 = remove_unknown_fields(dict(k1=1, k2=2, extra=3), TestItem)
     prep2 = remove_unknown_fields(dict(k1=1, k2=2, extra=3), TestItem)
