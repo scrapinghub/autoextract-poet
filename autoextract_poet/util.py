@@ -8,7 +8,7 @@ import attr
 CLASS_ATTRS: WeakKeyDictionary = WeakKeyDictionary()
 
 
-def attr_prepare(data: Optional[dict], item_cls: Type) -> dict:
+def remove_unknown_fields(data: Optional[dict], item_cls: Type) -> dict:
     """Return a dict where those elements not belonging to the
     attr class ``item_cls`` definition are removed. This dict is then safe to
     be used to create items for the given class. Can be used to ensure

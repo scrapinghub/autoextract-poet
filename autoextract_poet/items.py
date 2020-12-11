@@ -2,7 +2,7 @@ from typing import Dict, List, Optional
 
 import attr
 
-from autoextract_poet.util import attr_prepare
+from autoextract_poet.util import remove_unknown_fields
 
 
 @attr.s(auto_attribs=True, slots=True)
@@ -14,7 +14,7 @@ class Item:
         Read an item from a dictionary, ignoring unknown attributes for
         backwards compatibility
         """
-        item = attr_prepare(item, cls)
+        item = remove_unknown_fields(item, cls)
         return cls(**item) if item else None  # type: ignore
 
     @classmethod
