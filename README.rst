@@ -25,7 +25,6 @@ autoextract-poet
 
 License is BSD 3-clause.
 
-* Documentation: http://autoextract-poet.readthedocs.io
 * Source code: https://github.com/scrapinghub/autoextract-poet
 * Issue tracker: https://github.com/scrapinghub/autoextract-poet/issues
 
