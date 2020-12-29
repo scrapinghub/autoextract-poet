@@ -10,8 +10,8 @@ autoextract-poet
    :target: https://pypi.python.org/pypi/autoextract-poet
    :alt: Supported Python Versions
 
-.. image:: https://travis-ci.com/scrapinghub/autoextract-poet.svg?branch=master
-   :target: https://travis-ci.com/scrapinghub/autoextract-poet
+.. image:: https://github.com/scrapinghub/autoextract-poet/workflows/tox/badge.svg
+   :target: https://github.com/scrapinghub/autoextract-poet/actions
    :alt: Build Status
 
 .. image:: https://codecov.io/github/scrapinghub/autoextract-poet/coverage.svg?branch=master
