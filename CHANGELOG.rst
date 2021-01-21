@@ -2,7 +2,7 @@
 Changelog
 =========
 
-0.2.0 (TBD)
+0.2.0 (2020-12-30)
 -----------
 
 * ``AutoExtractProductListData`` page input and ``ProductList`` item
