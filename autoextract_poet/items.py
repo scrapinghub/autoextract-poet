@@ -54,7 +54,7 @@ class Rating(Item):
 class AdditionalProperty(Item):
 
     name: str
-    value: str
+    value: Optional[str] = None
 
 
 @attr.s(auto_attribs=True, slots=True)

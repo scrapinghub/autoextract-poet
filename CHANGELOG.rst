@@ -2,8 +2,13 @@
 Changelog
 =========
 
+0.2.1 (2021-01-27)
+------------------
+
+* ``AdditionalProperty`` value as optional to match ``unified-schema``
+
 0.2.0 (2020-12-30)
------------
+------------------
 
 * ``AutoExtractProductListData`` page input and ``ProductList`` item
 * ``from_dict`` of items no longer fail on unknown attributes,
