@@ -4,4 +4,10 @@ from .page_inputs import (
     AutoExtractProductData,
     AutoExtractProductListData,
 )
-from .pages import AutoExtractWebPage, AutoExtractItemWebPage
+from .pages import (
+    AutoExtractWebPage,
+    AutoExtractItemWebPage,
+    AutoExtractArticlePage,
+    AutoExtractProductPage,
+    AutoExtractProductListPage,
+)

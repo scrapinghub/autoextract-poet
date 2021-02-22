@@ -36,7 +36,7 @@ class AutoExtractData(Generic[T]):
     (this is to facilitate query batching)
     but we're receiving single responses here..
 
-    https://doc.scrapinghub.com/autoextract.html#responses
+    https://docs.zyte.com/automatic-extraction.html#responses
     """
     page_type: ClassVar[str]
     data: dict
@@ -53,7 +53,7 @@ class AutoExtractData(Generic[T]):
 class AutoExtractArticleData(AutoExtractData[Article]):
     """Container for AutoExtract Article data.
 
-    https://doc.scrapinghub.com/autoextract/article.html
+    https://docs.zyte.com/automatic-extraction/article.html
     """
     page_type = "article"
 
@@ -62,7 +62,7 @@ class AutoExtractArticleData(AutoExtractData[Article]):
 class AutoExtractProductData(AutoExtractData[Product]):
     """Container for AutoExtract Product data.
 
-    https://doc.scrapinghub.com/autoextract/product.html
+    https://docs.zyte.com/automatic-extraction/product.html
     """
     page_type = "product"
 
@@ -71,6 +71,6 @@ class AutoExtractProductData(AutoExtractData[Product]):
 class AutoExtractProductListData(AutoExtractData[ProductList]):
     """Container for AutoExtract Product list data.
 
-    https://doc.scrapinghub.com/autoextract/product_list.html
+    https://docs.zyte.com/automatic-extraction/product-list.html
     """
     page_type = "productList"

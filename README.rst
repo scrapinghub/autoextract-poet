@@ -18,9 +18,6 @@ autoextract-poet
    :target: https://codecov.io/gh/scrapinghub/autoextract-poet
    :alt: Coverage report
 
-.. warning::
-    Current status is "experimental".
-
 ``autoextract-poet`` implements `web-poet`_'s Page Objects for AutoExtract API.
 
 License is BSD 3-clause.
