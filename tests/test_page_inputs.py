@@ -1,27 +1,27 @@
 import attr
 import pytest
 
-from autoextract_poet import (
-    AutoExtractArticleData,
-    AutoExtractProductData,
-    AutoExtractHtml,
-)
+from autoextract_poet import *
 
 from tests import load_fixture
 
 example_article_result = load_fixture("sample_article.json")
 example_product_result = load_fixture("sample_product.json")
+example_product_list_result = load_fixture("sample_product_list.json")
 
 
-@pytest.mark.parametrize("cls, results", [
-    (AutoExtractArticleData, example_article_result),
-    (AutoExtractProductData, example_product_result),
+@pytest.mark.parametrize("page_input_cls, page_cls, results", [
+    (AutoExtractArticleData, AutoExtractArticlePage, example_article_result),
+    (AutoExtractProductData, AutoExtractProductPage, example_product_result),
+    (AutoExtractProductListData, AutoExtractProductListPage, example_product_list_result),
 ])
-def test_response_data(cls, results):
-    response_data = cls(results[0])
+def test_response_data_and_page(page_input_cls, page_cls, results):
+    response_data = page_input_cls(results[0])
     item = response_data.to_item()
     assert isinstance(item, response_data.item_class)
-    assert attr.asdict(item) == results[0][cls.page_type]
+    expected = results[0][page_input_cls.page_type]
+    assert attr.asdict(item) == expected
+    assert attr.asdict(page_cls(response_data).to_item()) == expected
 
 
 def test_auto_extract_html():
