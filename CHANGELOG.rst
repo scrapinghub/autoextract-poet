@@ -2,8 +2,8 @@
 Changelog
 =========
 
-TRB (XXX)
----------
+0.2.2 (2021-05-29)
+------------------
 
 * Page classes for Article, Product and ProductList introduced
 
