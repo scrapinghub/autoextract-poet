@@ -11,3 +11,4 @@ from .pages import (
     AutoExtractProductPage,
     AutoExtractProductListPage,
 )
+from .adapters import AutoExtractAdapter

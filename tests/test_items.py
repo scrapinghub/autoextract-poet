@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import attr
 import pytest
 
@@ -30,9 +32,14 @@ example_product_list_result = load_fixture("sample_product_list.json")[0]
     [(PaginationLink, example_product_list_result["productList"]["paginationNext"])] +  # type: ignore
     [(ProductList, example_product_list_result["productList"])]  # type: ignore
 )  # type: ignore
-def test_item(cls, data):
-    item = cls.from_dict({**data, "unexpected_attribute": "Should not fail"})
+@pytest.mark.parametrize(
+    "unexpected_attrs",
+    [{}, {"unexpected_attribute": "Should not fail"}]
+)  # type: ignore
+def test_item(cls, data, unexpected_attrs):
+    item = cls.from_dict({**data, **unexpected_attrs})
     assert attr.asdict(item) == data
+    assert item._additional_attrs == unexpected_attrs
 
     with temp_seed(7):
         for _ in range(10):

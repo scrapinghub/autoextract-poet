@@ -2,20 +2,37 @@ from typing import Dict, List, Optional
 
 import attr
 
-from autoextract_poet.util import remove_unknown_fields
+from .util import split_in_unknown_and_known_fields
+
+
+class _ItemBase:
+    # Reserving an slot for _additional_attrs.
+    # This is done in a base class because otherwise attr.s won't pick it up
+    __slots__ = ("_additional_attrs", )
 
 
 @attr.s(auto_attribs=True, slots=True)
-class Item:
+class Item(_ItemBase):
+
+    def __attrs_post_init__(self):
+        self._additional_attrs = {}
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
         """
-        Read an item from a dictionary, ignoring unknown attributes for
-        backwards compatibility
+        Read an item from a dictionary.
+
+        Unknown attributes are kept in the dict ``_additional_attrs``
+        so that they can be serialized also by the ``AutoExtractAdapter``.
+        This ensures supporting new AutoExtract attributes even if the
+        item library is not in sync.
         """
-        item = remove_unknown_fields(item, cls)
-        return cls(**item) if item else None  # type: ignore
+        if not item:
+            return None
+        unknown_attrs, known_attrs = split_in_unknown_and_known_fields(item, cls)
+        obj = cls(**known_attrs)  # type: ignore
+        obj._additional_attrs = unknown_attrs
+        return obj
 
     @classmethod
     def from_list(cls, items: Optional[List[Dict]]) -> List:
