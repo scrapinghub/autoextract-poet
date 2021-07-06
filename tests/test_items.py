@@ -9,13 +9,23 @@ from autoextract_poet.items import (
     Offer,
     Product,
     Rating, ProductList, PaginationLink, Item,
+    JobPosting,
+    ArticleList,
+    Comments, ForumPosts, RealEstate, Reviews, Vehicle
 )
 
 from tests import load_fixture, temp_seed, crazy_monkey_nullify
 
 example_article_result = load_fixture("sample_article.json")[0]
+example_article_list_result = load_fixture("sample_article_list.json")[0]
 example_product_result = load_fixture("sample_product.json")[0]
 example_product_list_result = load_fixture("sample_product_list.json")[0]
+example_job_posting_result = load_fixture("sample_job_posting.json")[0]
+example_comments_result = load_fixture("sample_comments.json")[0]
+example_forum_posts_result = load_fixture("sample_forum_posts.json")[0]
+example_real_estate_result = load_fixture("sample_real_estate.json")[0]
+example_reviews_result = load_fixture("sample_reviews.json")[0]
+example_vehicle_result = load_fixture("sample_vehicle.json")[0]
 
 
 @pytest.mark.parametrize(
@@ -26,9 +36,16 @@ example_product_list_result = load_fixture("sample_product_list.json")[0]
     [(GTIN, gtin) for gtin in example_product_result["product"]["gtin"]] +  # type: ignore
     [(Rating, example_product_result["product"]["aggregateRating"])] +  # type: ignore
     [(Product, example_product_result["product"])] +  # type: ignore
-    [(Article, example_article_result["article"])] + # type: ignore
+    [(Article, example_article_result["article"])] +  # type: ignore
+    [(ArticleList, example_article_list_result["articleList"])] +  # type: ignore
     [(PaginationLink, example_product_list_result["productList"]["paginationNext"])] +  # type: ignore
-    [(ProductList, example_product_list_result["productList"])]  # type: ignore
+    [(ProductList, example_product_list_result["productList"])] +  # type: ignore
+    [(JobPosting, example_job_posting_result["jobPosting"])] +  # type: ignore
+    [(Comments, example_comments_result["comments"])] +  # type: ignore
+    [(ForumPosts, example_forum_posts_result["forumPosts"])] +  # type: ignore
+    [(RealEstate, example_real_estate_result["realEstate"])] +  # type: ignore
+    [(Reviews, example_reviews_result["reviews"])] +  # type: ignore
+    [(Vehicle, example_vehicle_result["vehicle"])]  # type: ignore
 )  # type: ignore
 @pytest.mark.parametrize(
     "unexpected_attrs",

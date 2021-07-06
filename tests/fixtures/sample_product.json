@@ -5,7 +5,7 @@
       "offers": [
         {
           "price": "42",
-          "regularPrice": "52",
+          "regularPrice": "45.00",
           "currency": "USD",
           "availability": "InStock"
         }
@@ -30,6 +30,7 @@
         "http://example.com/image.png"
       ],
       "description": "product description",
+      "descriptionHtml": "<article>HTML description for Product ...",
       "aggregateRating": {
         "ratingValue": 4.5,
         "bestRating": 5.0,
@@ -42,16 +43,13 @@
         }
       ],
       "probability": 0.95,
+      "canonicalUrl": "https://example.com/product/",
       "url": "https://example.com/product"
     },
     "webPage": {
       "inLanguages": [
-        {
-          "code": "en"
-        },
-        {
-          "code": "es"
-        }
+        {"code": "en"},
+        {"code": "es"}
       ]
     },
     "query": {
@@ -61,6 +59,7 @@
         "pageType": "product",
         "url": "https://example.com/product"
       }
-    }
+    },
+    "algorithmVersion": "20.8.1"
   }
 ]

@@ -81,6 +81,13 @@ class GTIN(Item):
 
 
 @attr.s(auto_attribs=True, slots=True)
+class PaginationLink(Item):
+
+    url: Optional[str] = None
+    text: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
 class Article(Item):
 
     url: Optional[str] = None
@@ -119,9 +126,49 @@ class Article(Item):
 
 
 @attr.s(auto_attribs=True, slots=True)
+class ArticleFromList(Item):
+
+    url: Optional[str] = None
+    probability: Optional[float] = None
+    headline: Optional[str] = None
+    datePublished: Optional[str] = None
+    datePublishedRaw: Optional[str] = None
+    author: Optional[str] = None
+    authorsList: List[str] = attr.Factory(list)
+    inLanguage: Optional[str] = None
+    mainImage: Optional[str] = None
+    images: List[str] = attr.Factory(list)
+    articleBody: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class ArticleList(Item):
+
+    url: Optional[str] = None
+    articles: List[ArticleFromList] = attr.Factory(list)
+    paginationNext: Optional[PaginationLink] = None
+    paginationPrevious: Optional[PaginationLink] = None
+
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            articles=ArticleFromList.from_list(item.get("articles", [])),
+            paginationNext=PaginationLink.from_dict(item.get("paginationNext", {})),
+            paginationPrevious=PaginationLink.from_dict(item.get("paginationPrevious", {})),
+        ))
+
+        return super().from_dict(new_item)
+
+
+@attr.s(auto_attribs=True, slots=True)
 class Product(Item):
 
     url: Optional[str] = None
+    canonicalUrl: Optional[str] = None
     probability: Optional[float] = None
     name: Optional[str] = None
     offers: List[Offer] = attr.Factory(list)
@@ -133,6 +180,7 @@ class Product(Item):
     mainImage: Optional[str] = None
     images: List[str] = attr.Factory(list)
     description: Optional[str] = None
+    descriptionHtml: Optional[str] = None
     additionalProperty: List[AdditionalProperty] = attr.Factory(list)
     aggregateRating: Optional[Rating] = None
 
@@ -183,13 +231,6 @@ class ProductFromList(Item):
 
 
 @attr.s(auto_attribs=True, slots=True)
-class PaginationLink(Item):
-
-    url: Optional[str] = None
-    text: Optional[str] = None
-
-
-@attr.s(auto_attribs=True, slots=True)
 class ProductList(Item):
 
     url: Optional[str] = None
@@ -209,6 +250,285 @@ class ProductList(Item):
             breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
             paginationNext=PaginationLink.from_dict(item.get("paginationNext", {})),
             paginationPrevious=PaginationLink.from_dict(item.get("paginationPrevious", {})),
+        ))
+
+        return super().from_dict(new_item)
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Location(Item):
+
+    raw: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Organization(Item):
+
+    raw: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Salary(Item):
+    raw: Optional[str] = None
+    value: Optional[float] = None
+    currency: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class JobPosting(Item):
+
+    probability: Optional[float] = None
+    url: Optional[str] = None
+    title: Optional[str] = None
+    datePosted: Optional[str] = None
+    validThrough: Optional[str] = None
+    description: Optional[str] = None
+    descriptionHtml: Optional[str] = None
+    employmentType: Optional[str] = None
+    hiringOrganization: Optional[Organization] = None
+    baseSalary: Optional[Salary] = None
+    jobLocation: Optional[Location] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Comment(Item):
+
+    probability: Optional[float] = None
+    text: Optional[str] = None
+    datePublished: Optional[str] = None
+    datePublishedRaw: Optional[str] = None
+    upvoteCount: Optional[int] = None
+    downvoteCount: Optional[int] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Comments(Item):
+
+    url: Optional[str] = None
+    comments: List[Comment] = attr.Factory(list)
+
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            comments=Comment.from_list(item.get("comments", [])),
+        ))
+
+        return super().from_dict(new_item)
+
+
+@attr.s(auto_attribs=True, slots=True)
+class ForumPost(Item):
+
+    probability: Optional[float] = None
+    text: Optional[str] = None
+    datePublished: Optional[str] = None
+    datePublishedRaw: Optional[str] = None
+    upvoteCount: Optional[int] = None
+    downvoteCount: Optional[int] = None
+    replyCount: Optional[int] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Topic(Item):
+
+    name: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class ForumPosts(Item):
+
+    url: Optional[str] = None
+    topic: Optional[Topic] = None
+    posts: List[ForumPost] = attr.Factory(list)
+
+
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            posts=ForumPost.from_list(item.get("posts", [])),
+        ))
+
+        return super().from_dict(new_item)
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Address(Item):
+
+    postalCode: Optional[str] = None
+    streetAddress: Optional[str] = None
+    addressCountry: Optional[str] = None
+    addressLocality: Optional[str] = None
+    addressRegion: Optional[str] = None
+    raw: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Area(Item):
+
+    value: Optional[float] = None
+    unitCode: Optional[str] = None
+    raw: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class TradeAction(Item):
+
+    tradeType: Optional[str] = None
+    price: Optional[str] = None
+    currency: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class RealEstate(Item):
+
+    url: Optional[str] = None
+    probability: Optional[float] = None
+    name: Optional[str] = None
+    datePublished: Optional[str] = None
+    datePublishedRaw: Optional[str] = None
+    description: Optional[str] = None
+    mainImage: Optional[str] = None
+    images: List[str] = attr.Factory(list)
+    yearBuilt: Optional[int] = None
+    breadcrumbs: List[Breadcrumb] = attr.Factory(list)
+    additionalProperty: List[AdditionalProperty] = attr.Factory(list)
+    address: Optional[Address] = None
+    area: Optional[Area] = None
+    numberOfBathroomsTotal: Optional[int] = None
+    numberOfFullBathrooms: Optional[int] = None
+    numberOfPartialBathrooms: Optional[int] = None
+    numberOfBedrooms: Optional[int] = None
+    numberOfRooms: Optional[int] = None
+    identifier: Optional[str] = None
+    tradeActions: List[TradeAction] = attr.Factory(list)
+
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            additionalProperty=AdditionalProperty.from_list(
+                item.get("additionalProperty", [])),
+            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
+            tradeActions=TradeAction.from_list(item.get("tradeActions", []))
+        ))
+
+        return super().from_dict(new_item)
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Review(Item):
+    
+    name: Optional[str] = None
+    reviewBody: Optional[str] = None
+    reviewRating: Optional[Rating] = None
+    datePublished: Optional[str] = None
+    datePublishedRaw: Optional[str] = None
+    votedHelpful: Optional[int] = None
+    votedUnhelpful: Optional[int] = None
+    isVerified: Optional[bool] = None
+    probability: Optional[float] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Reviews(Item):
+
+    url: Optional[str] = None
+    reviews: List[Review] = attr.Factory(list)
+    paginationNext: Optional[PaginationLink] = None
+    paginationPrevious: Optional[PaginationLink] = None
+
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            reviews=Review.from_list(item.get("reviews", [])),
+        ))
+
+        return super().from_dict(new_item)
+
+
+@attr.s(auto_attribs=True, slots=True)
+class MileageFromOdometer(Item):
+
+    value: Optional[int] = None
+    unitCode: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class VehicleEngine(Item):
+
+    raw: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class AvailableAtOrFrom(Item):
+
+    raw: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class FuelEfficiency(Item):
+
+    raw: Optional[str] = None
+
+
+@attr.s(auto_attribs=True, slots=True)
+class Vehicle(Item):
+
+    url: Optional[str] = None
+    canonicalUrl: Optional[str] = None
+    probability: Optional[float] = None
+    name: Optional[str] = None
+    offers: List[Offer] = attr.Factory(list)
+    sku: Optional[str] = None
+    mpn: Optional[str] = None
+    brand: Optional[str] = None
+    breadcrumbs: List[Breadcrumb] = attr.Factory(list)
+    mainImage: Optional[str] = None
+    images: List[str] = attr.Factory(list)
+    description: Optional[str] = None
+    descriptionHtml: Optional[str] = None
+    additionalProperty: List[AdditionalProperty] = attr.Factory(list)
+    aggregateRating: Optional[Rating] = None
+    vehicleIdentificationNumber: Optional[str] = None
+    mileageFromOdometer: Optional[MileageFromOdometer] = None
+    vehicleTransmission: Optional[str] = None
+    fuelType: Optional[str] = None
+    vehicleEngine: Optional[VehicleEngine] = None
+    color: Optional[str] = None
+    vehicleInteriorColor: Optional[str] = None
+    availableAtOrFrom: Optional[AvailableAtOrFrom] = None
+    numberOfDoors: Optional[int] = None
+    vehicleSeatingCapacity: Optional[int] = None
+    fuelEfficiency: List[FuelEfficiency] = attr.Factory(list)
+
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            additionalProperty=AdditionalProperty.from_list(
+                item.get("additionalProperty", [])),
+            aggregateRating=Rating.from_dict(item.get("aggregateRating")),
+            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
+            offers=Offer.from_list(item.get("offers", [])),
+            fuelEfficiency=FuelEfficiency.from_list(item.get("fuelEfficiency", [])),
         ))
 
         return super().from_dict(new_item)
