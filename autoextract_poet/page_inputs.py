@@ -8,8 +8,10 @@ from autoextract_poet.items import (
     Product, ProductList, ArticleList, Comments, ForumPosts, JobPosting,
     RealEstate, Reviews, Vehicle,
 )
+from autoextract_poet.util import export
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractHtml:
     """A container for URL and HTML content retrieved from AutoExtract.
@@ -50,6 +52,7 @@ class AutoExtractData(Generic[T]):
         return self.item_class.from_dict(self.data[self.page_type])
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractArticleData(AutoExtractData[Article]):
     """Container for AutoExtract Article data.
@@ -59,6 +62,7 @@ class AutoExtractArticleData(AutoExtractData[Article]):
     page_type = "article"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractProductData(AutoExtractData[Product]):
     """Container for AutoExtract Product data.
@@ -68,6 +72,7 @@ class AutoExtractProductData(AutoExtractData[Product]):
     page_type = "product"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractProductListData(AutoExtractData[ProductList]):
     """Container for AutoExtract Product list data.
@@ -77,6 +82,7 @@ class AutoExtractProductListData(AutoExtractData[ProductList]):
     page_type = "productList"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractArticleListData(AutoExtractData[ArticleList]):
     """Container for AutoExtract Article list data.
@@ -86,6 +92,7 @@ class AutoExtractArticleListData(AutoExtractData[ArticleList]):
     page_type = "articleList"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractCommentsData(AutoExtractData[Comments]):
     """Container for AutoExtract Comments data.
@@ -95,6 +102,7 @@ class AutoExtractCommentsData(AutoExtractData[Comments]):
     page_type = "comments"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractForumPostsData(AutoExtractData[ForumPosts]):
     """Container for AutoExtract Forum Posts data.
@@ -104,6 +112,7 @@ class AutoExtractForumPostsData(AutoExtractData[ForumPosts]):
     page_type = "forumPosts"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractJobPostingData(AutoExtractData[JobPosting]):
     """Container for AutoExtract Job Posting data.
@@ -113,6 +122,7 @@ class AutoExtractJobPostingData(AutoExtractData[JobPosting]):
     page_type = "jobPosting"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractRealEstateData(AutoExtractData[RealEstate]):
     """Container for AutoExtract Real Estate data.
@@ -122,6 +132,7 @@ class AutoExtractRealEstateData(AutoExtractData[RealEstate]):
     page_type = "realEstate"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractReviewsData(AutoExtractData[Reviews]):
     """Container for AutoExtract Reviews data.
@@ -131,6 +142,7 @@ class AutoExtractReviewsData(AutoExtractData[Reviews]):
     page_type = "reviews"
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractVehicleData(AutoExtractData[Vehicle]):
     """Container for AutoExtract Vehicle data.

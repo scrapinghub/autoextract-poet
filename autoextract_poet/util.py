@@ -1,3 +1,4 @@
+import sys
 from typing import Type, Optional, Tuple, Dict, Callable, Any
 from weakref import WeakKeyDictionary
 
@@ -40,3 +41,17 @@ def split_dict(dict: Dict, key_pred: Callable[[Any], Any]) -> Tuple[Dict, Dict]:
         else:
             no[k] = v
     return (no, yes)
+
+
+def export(fn):
+    """
+    Decorator that includes the decorated element into the
+    ``__all__`` variable in the module. Useful to control
+    what is imported when ``import * from <module>`` is used.
+    """
+    mod = sys.modules[fn.__module__]
+    if hasattr(mod, '__all__'):
+        mod.__all__.append(fn.__name__)
+    else:
+        mod.__all__ = [fn.__name__]
+    return fn

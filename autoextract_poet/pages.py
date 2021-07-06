@@ -9,10 +9,12 @@ from autoextract_poet.page_inputs import AutoExtractHtml, \
     T, AutoExtractArticleListData, AutoExtractCommentsData, \
     AutoExtractForumPostsData, AutoExtractJobPostingData, \
     AutoExtractRealEstateData, AutoExtractReviewsData, AutoExtractVehicleData
+from autoextract_poet.util import export
 from web_poet import Injectable, ItemPage
 from web_poet.mixins import ResponseShortcutsMixin
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractWebPage(Injectable, ResponseShortcutsMixin):
     """Base Page Object which requires :class:`~.AutoExtractHtml`
@@ -24,6 +26,7 @@ class AutoExtractWebPage(Injectable, ResponseShortcutsMixin):
     response: AutoExtractHtml
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractItemWebPage(AutoExtractWebPage, ItemPage):
     """:class:`AutoExtractWebPage` that requires the :meth:`to_item` method to
@@ -32,6 +35,7 @@ class AutoExtractItemWebPage(AutoExtractWebPage, ItemPage):
     pass
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractArticlePage(ItemPage):
     """
@@ -45,6 +49,7 @@ class AutoExtractArticlePage(ItemPage):
         return self.article_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractArticleListPage(ItemPage):
     """
@@ -58,6 +63,7 @@ class AutoExtractArticleListPage(ItemPage):
         return self.article_list_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractProductPage(ItemPage):
     """
@@ -71,6 +77,7 @@ class AutoExtractProductPage(ItemPage):
         return self.product_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractProductListPage(ItemPage):
     """
@@ -84,6 +91,7 @@ class AutoExtractProductListPage(ItemPage):
         return self.product_list_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractCommentsPage(ItemPage):
     """
@@ -97,6 +105,7 @@ class AutoExtractCommentsPage(ItemPage):
         return self.comments_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractForumPostsPage(ItemPage):
     """
@@ -110,6 +119,7 @@ class AutoExtractForumPostsPage(ItemPage):
         return self.forum_posts_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractJobPostingPage(ItemPage):
     """
@@ -123,6 +133,7 @@ class AutoExtractJobPostingPage(ItemPage):
         return self.job_posting_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractRealEstatePage(ItemPage):
     """
@@ -136,6 +147,7 @@ class AutoExtractRealEstatePage(ItemPage):
         return self.real_estate_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractReviewsPage(ItemPage):
     """
@@ -149,6 +161,7 @@ class AutoExtractReviewsPage(ItemPage):
         return self.reviews_data.to_item()
 
 
+@export
 @attr.s(auto_attribs=True)
 class AutoExtractVehiclePage(ItemPage):
     """
