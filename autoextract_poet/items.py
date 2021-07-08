@@ -37,8 +37,7 @@ class Item(_ItemBase):
     @classmethod
     def from_list(cls, items: Optional[List[Dict]]) -> List:
         """
-        Read items from a list, ignoring unknown attributes for
-        backwards compatibility
+        Read items from a list, invoking ``from_dict`` for each item in the list
         """
         return [cls.from_dict(item) for item in items or []]
 
