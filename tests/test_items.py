@@ -1,5 +1,3 @@
-from pprint import pprint
-
 import attr
 import pytest
 
