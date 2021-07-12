@@ -8,11 +8,18 @@ from autoextract_poet.items import Item
 
 class AutoExtractAdapter(AttrsAdapter):
     """
-    ``ItemAdapter`` for AutoExtract poet items. The advantage of
-    this adapter over the default one is that any new attributes
-    no present in the item definition are also preserved and serialized.
-    This ensures compatibility with the addition of new attributes
-    in the AutoExtract API.
+    ``ItemAdapter`` for AutoExtract poet items that deals transparently with
+    both the ``attr.s`` defined fields and the rest of unknown
+    fields received at item initialization.
+
+    The utility is twofold. Firstly, it serves to ensure the
+    pass-through of new fields from the API even if ``autoextract-poet``
+    item definitions have not been yet updated. In other words,
+    it can be used to create spiders that preserve all the data coming
+    from the API even if they don't have updated item definitions.
+
+    Secondly, it offers a common interface to access and modify both kind of
+    fields (known and unknown).
 
     Remember that this adapter should be enabled by invoking::
 
