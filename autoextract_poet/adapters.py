@@ -32,20 +32,20 @@ class AutoExtractAdapter(AttrsAdapter):
             return MappingProxyType({})
 
     def field_names(self) -> KeysView:
-        return KeysView({**self._fields_dict, **self.item._additional_attrs})
+        return KeysView({**self._fields_dict, **self.item._unknown_fields_dict})
 
     def __getitem__(self, field_name: str) -> Any:
         if field_name in self._fields_dict:
             return getattr(self.item, field_name)
-        elif field_name in self.item._additional_attrs:
-            return self.item._additional_attrs[field_name]
+        elif field_name in self.item._unknown_fields_dict:
+            return self.item._unknown_fields_dict[field_name]
         raise KeyError(field_name)
 
     def __setitem__(self, field_name: str, value: Any) -> None:
         if field_name in self._fields_dict:
             setattr(self.item, field_name, value)
         else:
-            self.item._additional_attrs[field_name] = value
+            self.item._unknown_fields_dict[field_name] = value
 
     def __delitem__(self, field_name: str) -> None:
         if field_name in self._fields_dict:
@@ -53,13 +53,13 @@ class AutoExtractAdapter(AttrsAdapter):
                 delattr(self.item, field_name)
             except AttributeError:
                 raise KeyError(field_name)
-        elif field_name in self.item._additional_attrs:
-            del self.item._additional_attrs[field_name]
+        elif field_name in self.item._unknown_fields_dict:
+            del self.item._unknown_fields_dict[field_name]
         else:
             raise KeyError(f"Object of type {self.item.__class__.__name__} does " +
                            f"not contain a field with name {field_name}")
 
     def __iter__(self) -> Iterator:
         fields = [attr for attr in self._fields_dict if hasattr(self.item, attr)]
-        fields.extend(attr for attr in self.item._additional_attrs if attr not in fields)
+        fields.extend(attr for attr in self.item._unknown_fields_dict if attr not in fields)
         return iter(fields)

@@ -6,32 +6,32 @@ from .util import split_in_unknown_and_known_fields
 
 
 class _ItemBase:
-    # Reserving an slot for _additional_attrs.
+    # Reserving an slot for _unknown_fields_dict.
     # This is done in a base class because otherwise attr.s won't pick it up
-    __slots__ = ("_additional_attrs", )
+    __slots__ = ("_unknown_fields_dict", )
 
 
 @attr.s(auto_attribs=True, slots=True)
 class Item(_ItemBase):
 
     def __attrs_post_init__(self):
-        self._additional_attrs = {}
+        self._unknown_fields_dict = {}
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
         """
         Read an item from a dictionary.
 
-        Unknown attributes are kept in the dict ``_additional_attrs``
-        so that they can be serialized also by the ``AutoExtractAdapter``.
-        This ensures supporting new AutoExtract attributes even if the
+        Unknown attributes are kept in the dict ``_unknown_fields_dict``
+        so that ``AutoExtractAdapter`` can include them in the resultant item.
+        This ensures supporting new AutoExtract fields even if the
         item library is not in sync.
         """
         if not item:
             return None
-        unknown_attrs, known_attrs = split_in_unknown_and_known_fields(item, cls)
-        obj = cls(**known_attrs)  # type: ignore
-        obj._additional_attrs = unknown_attrs
+        unknown_fields, known_fields = split_in_unknown_and_known_fields(item, cls)
+        obj = cls(**known_fields)  # type: ignore
+        obj._unknown_fields_dict = unknown_fields
         return obj
 
     @classmethod

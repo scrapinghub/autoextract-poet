@@ -37,7 +37,7 @@ example_product_list_result = load_fixture("sample_product_list.json")[0]
 def test_item(cls, data, unexpected_attrs):
     item = cls.from_dict({**data, **unexpected_attrs})
     assert attr.asdict(item) == data
-    assert item._additional_attrs == unexpected_attrs
+    assert item._unknown_fields_dict == unexpected_attrs
 
     with temp_seed(7):
         for _ in range(10):

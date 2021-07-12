@@ -61,13 +61,13 @@ def test_get_field_meta(adapted_item):
 def test_field_names(adapted_item):
     expected = ["attr1", "attr2", "attr3", "attr4"]
     assert list(adapted_item.field_names()) == expected
-    adapted_item.item._additional_attrs['attr1'] = "duplicated"
+    adapted_item.item._unknown_fields_dict['attr1'] = "duplicated"
     assert list(adapted_item.field_names()) == expected
 
 
 def test_field_names_on_empty(empty_item):
     assert not empty_item.field_names()
-    empty_item.item._additional_attrs['attr'] = "additional"
+    empty_item.item._unknown_fields_dict['attr'] = "additional"
     assert list(empty_item.field_names()) == ['attr']
 
 
