@@ -10,7 +10,8 @@ class AutoExtractAdapter(AttrsAdapter):
     """
     ``ItemAdapter`` for AutoExtract poet items that deals transparently with
     both the ``attr.s`` defined fields and the rest of unknown
-    fields received at item initialization.
+    fields received at item initialization, offering an unified view over
+    all the item fields.
 
     The utility is twofold. Firstly, it serves to ensure the
     pass-through of new fields from the API even if ``autoextract-poet``
