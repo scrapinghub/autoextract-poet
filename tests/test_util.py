@@ -1,22 +1,27 @@
 import attr
 import pytest
 
-from autoextract_poet.util import remove_unknown_fields
+from autoextract_poet.util import split_in_unknown_and_known_fields
 
 
-@attr.s(auto_attribs=True)
+@attr.s(auto_attribs=True, slots=True)
 class _TestItem:
     k1: int
     k2: int
 
 
-def test_remove_unknown_fields():
-    expected = dict(k1=1, k2=2)
-    prep1 = remove_unknown_fields(dict(k1=1, k2=2, extra=3), _TestItem)
-    prep2 = remove_unknown_fields(dict(k1=1, k2=2, extra=3), _TestItem)
-    assert prep1 == prep2
-    assert prep2 == expected
-    assert attr.asdict(_TestItem(**prep2)) == expected
+def test_split_in_unknown_and_known_fields():
+    input = dict(k1=1, k2=2, extra=3)
+    unknown, known = split_in_unknown_and_known_fields(input, _TestItem)
+    assert attr.asdict(_TestItem(**known)) == dict(k1=1, k2=2)
+    assert unknown == dict(extra=3)
+
+    unknown, known = split_in_unknown_and_known_fields(known, _TestItem)
+    assert unknown == {}
+
+    for empty_input in ({}, None):
+        ret = split_in_unknown_and_known_fields(empty_input, _TestItem)
+        assert ret == ({}, {})
 
     with pytest.raises(ValueError):
-        remove_unknown_fields(expected, str)
+        split_in_unknown_and_known_fields(input, str)

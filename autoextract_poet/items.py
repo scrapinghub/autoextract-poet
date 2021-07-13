@@ -2,26 +2,42 @@ from typing import Dict, List, Optional
 
 import attr
 
-from autoextract_poet.util import remove_unknown_fields
+from .util import split_in_unknown_and_known_fields
+
+
+class _ItemBase:
+    # Reserving an slot for _unknown_fields_dict.
+    # This is done in a base class because otherwise attr.s won't pick it up
+    __slots__ = ("_unknown_fields_dict", )
 
 
 @attr.s(auto_attribs=True, slots=True)
-class Item:
+class Item(_ItemBase):
+
+    def __attrs_post_init__(self):
+        self._unknown_fields_dict = {}
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
         """
-        Read an item from a dictionary, ignoring unknown attributes for
-        backwards compatibility
+        Read an item from a dictionary.
+
+        Unknown attributes are kept in the dict ``_unknown_fields_dict``
+        so that ``AutoExtractAdapter`` can include them in the resultant item.
+        This ensures supporting new AutoExtract fields even if the
+        item library is not in sync.
         """
-        item = remove_unknown_fields(item, cls)
-        return cls(**item) if item else None  # type: ignore
+        if not item:
+            return None
+        unknown_fields, known_fields = split_in_unknown_and_known_fields(item, cls)
+        obj = cls(**known_fields)  # type: ignore
+        obj._unknown_fields_dict = unknown_fields
+        return obj
 
     @classmethod
     def from_list(cls, items: Optional[List[Dict]]) -> List:
         """
-        Read items from a list, ignoring unknown attributes for
-        backwards compatibility
+        Read items from a list, invoking ``from_dict`` for each item in the list
         """
         return [cls.from_dict(item) for item in items or []]
 
