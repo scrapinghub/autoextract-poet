@@ -134,14 +134,14 @@ And how does the spider look like now? Here you can see it:
 The spider is now very simple because all the extraction logic has been moved
 to the new page object ``ToScrapeProductPage``. The only responsibility
 of this page object is to extract data from
-`books.toscrape.com <http://books.toscrape.com>'_. If you need
+`books.toscrape.com <http://books.toscrape.com>`_. If you need
 products from a different site you could implement a new page
 object specialized in extracting the data from this site.
 The good news is that you could reuse the spider and the items
 definitions!
 We recommend you to read the
-`multiple sites spider <https://scrapy-poet.readthedocs.io/en/stable/intro/tutorial.html#single-spider-multiple-sites>`
-section in `scrapy-poet` documentation to read more about that.
+`multiple sites spider <https://scrapy-poet.readthedocs.io/en/stable/intro/tutorial.html#single-spider-multiple-sites>`_
+section in ``scrapy-poet`` documentation to read more about that.
 
 
 Compatibility with new fields added to the API
