@@ -92,7 +92,7 @@ instead of the Scrapy response:
             my_product.upc = html.css("tr:nth-child(1) td::text").get()
             yield my_product
 
-The HTML from AutoExtract is now accessible in the callback through the html
+The HTML from AutoExtract is now accessible in the callback through the ``html``
 argument. Note that we used the ``DummyResponse`` type annotation
 to avoid issuing the Scrapy request.
 
@@ -141,7 +141,7 @@ The good news is that you could reuse the spider and the items
 definitions!
 We recommend you to read the
 `multiple sites spider <https://scrapy-poet.readthedocs.io/en/stable/intro/tutorial.html#single-spider-multiple-sites>`_
-section in ``scrapy-poet`` documentation to read more about that.
+section in ``scrapy-poet`` documentation for more information about that.
 
 
 Compatibility with new fields added to the API
