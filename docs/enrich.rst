@@ -98,13 +98,13 @@ to avoid issuing the Scrapy request.
 
 It is a good idea to pack all the extraction logic within its own page
 object. Let's do so. We are going to create
-a new page object ``UPCProductPage`` that will depend on both
+a new page object ``ToScrapeProductPage`` that will depend on both
 ``AutoExtractWebPage`` (by inheritance) and ``AutoExtractProductPage``
 (by membership).
 
 .. code-block:: python
 
-    class UPCProductPage(AutoExtractWebPage):
+    class ToScrapeProductPage(AutoExtractWebPage):
 
         product_page: AutoExtractProductPage
 
@@ -128,11 +128,21 @@ And how does the spider look like now? Here you can see it:
         name = "products"
         start_urls = ['https://books.toscrape.com/catalogue/sharp-objects_997/index.html']
 
-        def parse(self, response: DummyReponse, product_page: UPCProductPage):
+        def parse(self, response: DummyReponse, product_page: ToScrapeProductPage):
             yield product_page.to_item()
 
 The spider is now very simple because all the extraction logic has been moved
-to the new page object ``UPCProductPage``.
+to the new page object ``ToScrapeProductPage``. The only responsibility
+of this page object is to extract data from
+`books.toscrape.com <http://books.toscrape.com>'_. If you need
+products from a different site you could implement a new page
+object specialized in extracting the data from this site.
+The good news is that you could reuse the spider and the items
+definitions!
+We recommend you to read the
+`multiple sites spider <https://scrapy-poet.readthedocs.io/en/stable/intro/tutorial.html#single-spider-multiple-sites>`
+section in `scrapy-poet` documentation to read more about that.
+
 
 Compatibility with new fields added to the API
 ----------------------------------------------
