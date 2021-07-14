@@ -23,7 +23,7 @@ the extracted product.
         start_urls = ['https://books.toscrape.com/catalogue/sharp-objects_997/index.html']
 
         def parse(self, response, product_page: AutoExtractProductPage):
-            product = product.to_item()
+            product = product_page.to_item()
             product._additional_attrs["UPC"] = response.css("tr:nth-child(1) td::text").get()
             yield product
 
