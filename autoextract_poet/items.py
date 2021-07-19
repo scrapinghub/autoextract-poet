@@ -42,6 +42,34 @@ class Item(_ItemBase):
         return [cls.from_dict(item) for item in items or []]
 
 
+def _apply_types(item: Optional[dict], *,
+                 from_dict: dict = None,
+                 from_list: dict = None) -> Optional[dict]:
+    """
+    Utility function to wrap basic types into data structures.
+
+    Assumptions:
+    * field names stay the same;
+    * from_dict fields are optional, and in case of an absent field
+      we're preserving None instead of creating an empty data structure;
+    * from_list fields are optional, but in case of an absent field
+      an empty list is created.
+    """
+    if not item:
+        return None
+
+    new_item = dict(**item)
+    new_item.update({
+        key: cls.from_dict(item.get(key))
+        for key, cls in (from_dict or {}).items()
+    })
+    new_item.update({
+        key: cls.from_list(item.get(key, []))
+        for key, cls in (from_list or {}).items()
+    })
+    return new_item
+
+
 @attr.s(auto_attribs=True, slots=True)
 class Offer(Item):
 
@@ -114,14 +142,7 @@ class Article(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
-        ))
-
+        new_item = _apply_types(item, from_list={'breadcrumbs': Breadcrumb})
         return super().from_dict(new_item)
 
 
@@ -151,6 +172,8 @@ class ArticleList(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
+        # XXX: why is None not preserved for pagination?
+        # that's the reason this method is not converted to _apply_types.
         if not item:
             return None
 
@@ -186,19 +209,16 @@ class Product(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            additionalProperty=AdditionalProperty.from_list(
-                item.get("additionalProperty", [])),
-            aggregateRating=Rating.from_dict(item.get("aggregateRating")),
-            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
-            gtin=GTIN.from_list(item.get("gtin", [])),
-            offers=Offer.from_list(item.get("offers", [])),
-        ))
-
+        new_item = _apply_types(
+            item,
+            from_dict={'aggregateRating': Rating},
+            from_list={
+                'additionalProperty': AdditionalProperty,
+                'breadcrumbs': Breadcrumb,
+                'gtin': GTIN,
+                'offers': Offer,
+            }
+        )
         return super().from_dict(new_item)
 
 
@@ -218,15 +238,11 @@ class ProductFromList(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            aggregateRating=Rating.from_dict(item.get("aggregateRating")),
-            offers=Offer.from_list(item.get("offers", [])),
-        ))
-
+        new_item = _apply_types(
+            item,
+            from_dict={'aggregateRating': Rating},
+            from_list={'offers': Offer}
+        )
         return super().from_dict(new_item)
 
 
@@ -241,6 +257,8 @@ class ProductList(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
+        # XXX: why is None not preserved for pagination?
+        # that's the reason this method is not converted to _apply_types.
         if not item:
             return None
 
@@ -291,16 +309,11 @@ class JobPosting(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            hiringOrganization=Organization.from_dict(item.get("hiringOrganization")),
-            baseSalary=Salary.from_dict(item.get("baseSalary")),
-            jobLocation=Location.from_dict(item.get("jobLocation")),
-        ))
-
+        new_item = _apply_types(item, from_dict={
+            "hiringOrganization": Organization,
+            "baseSalary": Salary,
+            "jobLocation": Location,
+        })
         return super().from_dict(new_item)
 
 
@@ -323,14 +336,7 @@ class Comments(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            comments=Comment.from_list(item.get("comments", [])),
-        ))
-
+        new_item = _apply_types(item, from_list={"comments": Comment})
         return super().from_dict(new_item)
 
 
@@ -359,18 +365,11 @@ class ForumPosts(Item):
     topic: Optional[Topic] = None
     posts: List[ForumPost] = attr.Factory(list)
 
-
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            posts=ForumPost.from_list(item.get("posts", [])),
-            topic=Topic.from_dict(item.get("topic")),
-        ))
-
+        new_item = _apply_types(item,
+                                from_list={"posts": ForumPost},
+                                from_dict={"topic": Topic})
         return super().from_dict(new_item)
 
 
@@ -427,19 +426,18 @@ class RealEstate(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            additionalProperty=AdditionalProperty.from_list(
-                item.get("additionalProperty", [])),
-            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
-            tradeActions=TradeAction.from_list(item.get("tradeActions", [])),
-            address=Address.from_dict(item.get("address")),
-            area=Area.from_dict(item.get("area")),
-        ))
-
+        new_item = _apply_types(
+            item,
+            from_list={
+                "additionalProperty": AdditionalProperty,
+                "breadcrumbs": Breadcrumb,
+                "tradeActions": TradeAction
+            },
+            from_dict={
+                "address": Address,
+                "area": Area,
+            }
+        )
         return super().from_dict(new_item)
 
 
@@ -458,12 +456,7 @@ class Review(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-        new_item = dict(**item)
-        new_item.update(dict(
-            reviewRating=Rating.from_dict(item.get("reviewRating")),
-        ))
+        new_item = _apply_types(item, from_dict={"reviewRating": Rating})
         return super().from_dict(new_item)
 
 
@@ -477,6 +470,9 @@ class Reviews(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
+        # XXX: why is None not preserved for pagination?
+        # that's the reason this method is not converted to _apply_types.
+
         if not item:
             return None
 
@@ -547,20 +543,19 @@ class Vehicle(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            additionalProperty=AdditionalProperty.from_list(
-                item.get("additionalProperty", [])),
-            aggregateRating=Rating.from_dict(item.get("aggregateRating")),
-            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
-            offers=Offer.from_list(item.get("offers", [])),
-            fuelEfficiency=FuelEfficiency.from_list(item.get("fuelEfficiency", [])),
-            mileageFromOdometer=MileageFromOdometer.from_dict(item.get("mileageFromOdometer")),
-            vehicleEngine=VehicleEngine.from_dict(item.get("vehicleEngine")),
-            availableAtOrFrom=AvailableAtOrFrom.from_dict(item.get("availableAtOrFrom")),
-        ))
-
+        new_item = _apply_types(
+            item,
+            from_dict={
+                'aggregateRating': Rating,
+                'mileageFromOdometer': MileageFromOdometer,
+                'vehicleEngine': VehicleEngine,
+                'availableAtOrFrom': AvailableAtOrFrom,
+            },
+            from_list={
+                'additionalProperty': AdditionalProperty,
+                'breadcrumbs': Breadcrumb,
+                'offers': Offer,
+                'fuelEfficiency': FuelEfficiency,
+            }
+        )
         return super().from_dict(new_item)

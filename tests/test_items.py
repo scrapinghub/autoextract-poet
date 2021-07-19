@@ -56,6 +56,7 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
     [{}, {"unexpected_attribute": "Should not fail"}]
 )  # type: ignore
 def test_item(cls, data, unexpected_attrs):
+    assert cls.from_dict(None) is None
     item = cls.from_dict({**data, **unexpected_attrs})
     assert isinstance(item, cls)
     assert attr.asdict(item) == data
@@ -189,7 +190,3 @@ def test_vehicle_attr_types():
     assert isinstance(item.mileageFromOdometer, MileageFromOdometer)
     assert isinstance(item.vehicleEngine, VehicleEngine)
     assert isinstance(item.availableAtOrFrom, AvailableAtOrFrom)
-
-
-
-
