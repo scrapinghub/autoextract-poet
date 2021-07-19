@@ -8,83 +8,48 @@ Installing autoextract-poet
 ===========================
 
 ``autoextract-poet`` is a regular PyPI package that can be installed
-using ``pip``. But you'll rarely need to do so, because
-the most common way to use the definitions from ``autoextract-poet``
-is by creating spiders using scrapy-autoextract_.
+using ``pip``: ``pip install autoextract-poet``. It is also a dependency
+of scrapy-autoextract_, and installed automatically
+if you use scrapy-autoextract.
 
-Visit the scrapy-autoextract_ documentation for its installation
-details.
+Basic usage
+===========
 
-Basic usage in a spider
-=======================
+You can use items defined by autoextract-poet just as regular Python objects,
+to standardize item definitions. They are implemented as attr.s classes, and
+can be used as Scrapy_ items directly, or converted
+to dictionaries (e.g. for serialization) via itemadapter_.
 
-The usual way to extract data from a page is by writing a spider with
-a ``parse`` method that scrape the data from the page HTML using
-``css`` or ``xpath`` selectors. Below you can find a simple example
-that extracts data from a `books.toscrape.com <http://books.toscrape.com>`_
-page.
+scrapy-autoextract_ provides an automatic way to extract items defined
+here from any website, using Scrapy_ and `Autoextract API`_.
+See its `scrapy-autoextract documentation`_ for more.
 
-.. code-block:: python
+.. _scrapy-autoextract documentation: https://github.com/scrapinghub/scrapy-autoextract#the-providers
 
-    import scrapy
+Compatibility with new fields added to the API
+==============================================
 
-    class ProductSpider(scrapy.Spider):
+Eventually, some new fields could be added to the Autoextract API.
+When you're creating ``autoextract-poet`` items from Autoextract responses,
+the library would ignore unknown fields by default,
+until you upgrade the library to a version containing the new field.
+But you might want to keep the unknown (new) fields even if you don't update
+the ``autoextract-poet`` library.
 
-        name = "products"
-        start_urls = ['https://books.toscrape.com/catalogue/sharp-objects_997/index.html']
-
-        def parse(self, response):
-            product = {}
-            product_sel = response.css("div.product_main")
-            product["name"] = product_sel.css("h1 ::text").get()
-            product['description'] = response.xpath(
-                "//div[@id='product_description']/following-sibling::p/text()"
-            ).get()
-            # More attributes extracted ...
-            yield product
-
-Let's leverage `AutoExtract API`_ to extract the data for us without having
-to deal with selectors at all. In the following
-spider we have modified the ``parse`` method arguments:
-a new argument ``product_page`` of type ``AutoExtractProductPage`` has been included.
+If you're using Scrapy_ (or itemadapter_), you can make these unknown
+attributes exposed in the output by registering
+:class:`~.AutoExtractAdapter` in itemadapter's ADAPTER_CLASSES:
 
 .. code-block:: python
 
-    import scrapy
-    from autoextract_poet.pages import AutoExtractProductPage
-    from scrapy_poet import DummyResponse
+    from autoextract_poet import AutoExtractAdapter
+    from itemadapter import ItemAdapter
+    ItemAdapter.ADAPTER_CLASSES.appendleft(AutoExtractAdapter)
 
-    class ProductSpider(scrapy.Spider):
+For example, you can put this code to settings.py of your Scrapy project.
 
-        name = "products"
-        start_urls = ['https://books.toscrape.com/catalogue/sharp-objects_997/index.html']
-
-        def parse(self, response: DummyResponse, product_page: AutoExtractProductPage):
-            product = product.to_item()
-            # product is now an object full of attributes, like name, description, etc
-            yield product
-
-`scrapy-poet`_ will automatically perform a request to the API
-and will populate ``product_page`` accordingly with the results.
-As easy as that.
-
-Many page types are supported: products, articles, job postings, vehicles, real estate,
-comments, etc. The full list can be seen `here <https://docs.zyte.com/automatic-extraction.html#result-fields>`_
-
-There is one Page Object class defined for each supported page type.
-For example you might include an argument of type ``AutoExtractArticlePage``
-in your spider callback to extract the
-data from an article page. The full list of available Page Object classes can
-be see at the :ref:`Pages` API page.
-
-The former spider won't work as is by default. Some configuration is required.
-Please, visit the `scrapy-autoextract configuration page <https://github.com/scrapinghub/scrapy-autoextract#configuration-1>`_
-for the details. In this page you can find also the explanation about
-why the ``DummyResponse`` type annotation was used.
-
-.. _web-poet: https://github.com/scrapinghub/web-poet
-.. _andi: https://github.com/scrapinghub/andi
-.. _parsel: https://github.com/scrapinghub/parsel
+.. _Scrapy: https://github.com/scrapy/scrapy
+.. _scrapy-poet: https://scrapy-poet.readthedocs.io/en/stable/
 .. _scrapy-autoextract: https://github.com/scrapinghub/scrapy-autoextract
+.. _itemadapter: https://github.com/scrapy/itemadapter
 .. _`AutoExtract API`: https://docs.zyte.com/automatic-extraction.html
-.. _`scrapy-poet`: https://scrapy-poet.readthedocs.io/en/stable/

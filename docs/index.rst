@@ -2,9 +2,9 @@
 autoextract-poet documentation
 ==============================
 
-``autoextract-poet`` contains the the Page Objects definitions required
-to extract data using Zyte `AutoExtract API`_ in combination with
-`scrapy-poet`_ and `scrapy-autoextract`_.
+``autoextract-poet`` contains the common item definitions. Such items can
+be extracted automatically using Zyte `AutoExtract API`_ (you can use
+`scrapy-poet`_ and `scrapy-autoextract`_ for this).
 
 The `AutoExtract API`_ is able to convert pages into data automatically.
 It support multiple types of pages, like articles, products, real estate,
@@ -31,7 +31,6 @@ about how to use Page Objects with Scrapy spiders.
    :maxdepth: 1
 
    intro.rst
-   enrich.rst
 
 .. toctree::
    :caption: Documentation
