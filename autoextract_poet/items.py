@@ -289,6 +289,20 @@ class JobPosting(Item):
     baseSalary: Optional[Salary] = None
     jobLocation: Optional[Location] = None
 
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+
+        new_item = dict(**item)
+        new_item.update(dict(
+            hiringOrganization=Organization.from_dict(item.get("hiringOrganization")),
+            baseSalary=Salary.from_dict(item.get("baseSalary")),
+            jobLocation=Location.from_dict(item.get("jobLocation")),
+        ))
+
+        return super().from_dict(new_item)
+
 
 @attr.s(auto_attribs=True, slots=True)
 class Comment(Item):
@@ -354,6 +368,7 @@ class ForumPosts(Item):
         new_item = dict(**item)
         new_item.update(dict(
             posts=ForumPost.from_list(item.get("posts", [])),
+            topic=Topic.from_dict(item.get("topic")),
         ))
 
         return super().from_dict(new_item)
@@ -420,7 +435,9 @@ class RealEstate(Item):
             additionalProperty=AdditionalProperty.from_list(
                 item.get("additionalProperty", [])),
             breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
-            tradeActions=TradeAction.from_list(item.get("tradeActions", []))
+            tradeActions=TradeAction.from_list(item.get("tradeActions", [])),
+            address=Address.from_dict(item.get("address")),
+            area=Area.from_dict(item.get("area")),
         ))
 
         return super().from_dict(new_item)
@@ -439,6 +456,16 @@ class Review(Item):
     isVerified: Optional[bool] = None
     probability: Optional[float] = None
 
+    @classmethod
+    def from_dict(cls, item: Optional[Dict]):
+        if not item:
+            return None
+        new_item = dict(**item)
+        new_item.update(dict(
+            reviewRating=Rating.from_dict(item.get("reviewRating")),
+        ))
+        return super().from_dict(new_item)
+
 
 @attr.s(auto_attribs=True, slots=True)
 class Reviews(Item):
@@ -456,6 +483,8 @@ class Reviews(Item):
         new_item = dict(**item)
         new_item.update(dict(
             reviews=Review.from_list(item.get("reviews", [])),
+            paginationNext=PaginationLink.from_dict(item.get("paginationNext", {})),
+            paginationPrevious=PaginationLink.from_dict(item.get("paginationPrevious", {})),
         ))
 
         return super().from_dict(new_item)
@@ -529,6 +558,9 @@ class Vehicle(Item):
             breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
             offers=Offer.from_list(item.get("offers", [])),
             fuelEfficiency=FuelEfficiency.from_list(item.get("fuelEfficiency", [])),
+            mileageFromOdometer=MileageFromOdometer.from_dict(item.get("mileageFromOdometer")),
+            vehicleEngine=VehicleEngine.from_dict(item.get("vehicleEngine")),
+            availableAtOrFrom=AvailableAtOrFrom.from_dict(item.get("availableAtOrFrom")),
         ))
 
         return super().from_dict(new_item)

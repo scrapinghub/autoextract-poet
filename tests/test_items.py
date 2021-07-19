@@ -11,7 +11,11 @@ from autoextract_poet.items import (
     Rating, ProductList, PaginationLink, Item,
     JobPosting,
     ArticleList,
-    Comments, ForumPosts, RealEstate, Reviews, Vehicle
+    Comments, ForumPosts, RealEstate, Reviews, Vehicle, ArticleFromList,
+    ProductFromList, Salary, Organization,
+    Location, Comment, ForumPost, Topic, Address, Area, TradeAction,
+    Review, MileageFromOdometer, VehicleEngine,
+    AvailableAtOrFrom, FuelEfficiency
 )
 
 from tests import load_fixture, temp_seed, crazy_monkey_nullify
@@ -53,6 +57,7 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
 )  # type: ignore
 def test_item(cls, data, unexpected_attrs):
     item = cls.from_dict({**data, **unexpected_attrs})
+    assert isinstance(item, cls)
     assert attr.asdict(item) == data
     assert item._unknown_fields_dict == unexpected_attrs
 
@@ -83,3 +88,108 @@ def test_from_list():
 
     assert Number.from_list(None) == []
     assert Number.from_list([]) == []
+
+
+def assert_all_isinstance(lst, cls):
+    assert all(isinstance(el, cls) for el in lst)
+
+
+def assert_pagination_types(item):
+    assert isinstance(item.paginationNext, PaginationLink)
+    assert isinstance(item.paginationPrevious, PaginationLink)
+
+
+# XXX: should we make tests below to pick up types based on type annotations,
+# instead of hardcoding all attributes?
+
+def test_article_attr_types():
+    item = Article.from_dict(example_article_result["article"])
+    assert isinstance(item, Article)
+    assert_all_isinstance(item.breadcrumbs, Breadcrumb)
+
+
+def test_article_list_attr_types():
+    item = ArticleList.from_dict(example_article_list_result["articleList"])
+    assert isinstance(item, ArticleList)
+    assert_pagination_types(item)
+    assert_all_isinstance(item.articles, ArticleFromList)
+
+
+def test_product_attr_types():
+    item = Product.from_dict(example_product_result["product"])
+    assert isinstance(item, Product)
+    assert_all_isinstance(item.offers, Offer)
+    assert_all_isinstance(item.gtin, GTIN)
+    assert_all_isinstance(item.breadcrumbs, Breadcrumb)
+    assert_all_isinstance(item.additionalProperty, AdditionalProperty)
+    assert isinstance(item.aggregateRating, Rating)
+
+
+def test_product_list_attr_types():
+    item = ProductList.from_dict(example_product_list_result["productList"])
+    assert isinstance(item, ProductList)
+    assert_pagination_types(item)
+    assert_all_isinstance(item.products, ProductFromList)
+    assert_all_isinstance(item.breadcrumbs, Breadcrumb)
+
+    product = item.products[0]
+    assert isinstance(product.aggregateRating, Rating)
+    assert_all_isinstance(product.offers, Offer)
+
+
+def test_job_posting_attr_types():
+    item = JobPosting.from_dict(example_job_posting_result["jobPosting"])
+    assert isinstance(item, JobPosting)
+    assert isinstance(item.baseSalary, Salary)
+    assert isinstance(item.hiringOrganization, Organization)
+    assert isinstance(item.jobLocation, Location)
+
+
+def test_comments_attr_types():
+    item = Comments.from_dict(example_comments_result["comments"])
+    assert isinstance(item, Comments)
+    assert_all_isinstance(item.comments, Comment)
+
+
+def test_forum_posts_attr_types():
+    item = ForumPosts.from_dict(example_forum_posts_result["forumPosts"])
+    assert isinstance(item, ForumPosts)
+    assert_all_isinstance(item.posts, ForumPost)
+    assert isinstance(item.topic, Topic)
+
+
+def test_real_estate_attr_types():
+    item = RealEstate.from_dict(example_real_estate_result["realEstate"])
+    assert isinstance(item, RealEstate)
+    assert_all_isinstance(item.breadcrumbs, Breadcrumb)
+    assert_all_isinstance(item.additionalProperty, AdditionalProperty)
+    assert isinstance(item.address, Address)
+    assert isinstance(item.area, Area)
+    assert_all_isinstance(item.tradeActions, TradeAction)
+
+
+def test_reviews_attr_types():
+    item = Reviews.from_dict(example_reviews_result["reviews"])
+    assert isinstance(item, Reviews)
+    assert_pagination_types(item)
+    assert_all_isinstance(item.reviews, Review)
+
+    review = item.reviews[0]
+    assert isinstance(review.reviewRating, Rating)
+
+
+def test_vehicle_attr_types():
+    item = Vehicle.from_dict(example_vehicle_result["vehicle"])
+    assert isinstance(item, Vehicle)
+    assert_all_isinstance(item.offers, Offer)
+    assert_all_isinstance(item.breadcrumbs, Breadcrumb)
+    assert_all_isinstance(item.additionalProperty, AdditionalProperty)
+    assert_all_isinstance(item.fuelEfficiency, FuelEfficiency)
+    assert isinstance(item.aggregateRating, Rating)
+    assert isinstance(item.mileageFromOdometer, MileageFromOdometer)
+    assert isinstance(item.vehicleEngine, VehicleEngine)
+    assert isinstance(item.availableAtOrFrom, AvailableAtOrFrom)
+
+
+
+

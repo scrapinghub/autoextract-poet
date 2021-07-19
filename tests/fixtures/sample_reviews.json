@@ -19,7 +19,8 @@
           "reviewBody": "AutoExtract is a great tool for review extraction",
           "reviewRating": {
             "bestRating": 5.0,
-            "ratingValue": 5.0
+            "ratingValue": 5.0,
+            "reviewCount": 2
           },
           "votedHelpful": 12,
           "votedUnhelpful": 1
