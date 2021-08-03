@@ -172,18 +172,14 @@ class ArticleList(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        # XXX: why is None not preserved for pagination?
-        # that's the reason this method is not converted to _apply_types.
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            articles=ArticleFromList.from_list(item.get("articles", [])),
-            paginationNext=PaginationLink.from_dict(item.get("paginationNext", {})),
-            paginationPrevious=PaginationLink.from_dict(item.get("paginationPrevious", {})),
-        ))
-
+        new_item = _apply_types(
+            item,
+            from_list={'articles': ArticleFromList},
+            from_dict={
+                'paginationNext': PaginationLink,
+                'paginationPrevious': PaginationLink
+            }
+        )
         return super().from_dict(new_item)
 
 
