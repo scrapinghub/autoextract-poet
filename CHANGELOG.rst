@@ -2,6 +2,15 @@
 Changelog
 =========
 
+TBR
+------------------
+
+* Support for all API page types at the moment
+* Introduction of ``_unknown_fields_dict`` and ``AutoExtractAdapter``. Allows
+  to extend items with custom attributes and to include in the output
+  the returned attributes not yet supported by the existing definitions.
+* Initial documentation
+
 0.2.2 (2021-05-29)
 ------------------
 

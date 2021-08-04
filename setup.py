@@ -7,8 +7,8 @@ setup(
     description='web-poet definitions for AutoExtract API',
     long_description=open('README.rst').read(),
     long_description_content_type="text/x-rst",
-    author='Scrapinghub',
-    author_email='info@scrapinghub.com',
+    author='Zyte Group Ltd',
+    author_email='info@zyte.com',
     url='https://github.com/scrapinghub/autoextract-poet',
     packages=find_packages(exclude=['tests',]),
     install_requires=[
