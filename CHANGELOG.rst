@@ -2,8 +2,8 @@
 Changelog
 =========
 
-TBR
-------------------
+0.3 (2021-08-04)
+----------------
 
 * Support for all API page types at the moment
 * Introduction of ``_unknown_fields_dict`` and ``AutoExtractAdapter``. Allows
