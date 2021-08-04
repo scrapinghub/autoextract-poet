@@ -2,32 +2,12 @@
 API Reference
 =============
 
-.. _Pages:
+..
+    Based on ideas found on https://stackoverflow.com/a/62613202/3887420
 
-Pages
-=====
+.. autosummary::
+    :toctree: _autosummary
+    :template: custom-module-template.rst
+    :recursive:
 
-.. automodule:: autoextract_poet.pages
-   :members:
-   :show-inheritance: True
-
-Page inputs
-===========
-
-.. automodule:: autoextract_poet.page_inputs
-   :members:
-   :show-inheritance: True
-
-Items
-=====
-
-.. automodule:: autoextract_poet.items
-   :members:
-   :undoc-members:
-
-Item Adapters
-=============
-
-.. automodule:: autoextract_poet.adapters
-   :members:
-   :show-inheritance: True
+    autoextract_poet
