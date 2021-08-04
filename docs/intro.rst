@@ -16,7 +16,7 @@ Basic usage
 ===========
 
 You can use items defined by autoextract-poet just as regular Python objects,
-to standardize item definitions. They are implemented as attr.s classes, and
+to standardize item definitions. They are implemented as ``attr.s`` classes, and
 can be used as Scrapy_ items directly, or converted
 to dictionaries (e.g. for serialization) via itemadapter_.
 
