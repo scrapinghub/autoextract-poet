@@ -102,9 +102,6 @@ def assert_pagination_types(item):
     assert isinstance(item.paginationPrevious, PaginationLink)
 
 
-# XXX: should we make tests below to pick up types based on type annotations,
-# instead of hardcoding all attributes?
-
 def test_article_attr_types():
     item = Article.from_dict(example_article_result["article"])
     assert isinstance(item, Article)
