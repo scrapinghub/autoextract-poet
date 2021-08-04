@@ -253,19 +253,17 @@ class ProductList(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        # XXX: why is None not preserved for pagination?
-        # that's the reason this method is not converted to _apply_types.
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            products=ProductFromList.from_list(item.get("products", [])),
-            breadcrumbs=Breadcrumb.from_list(item.get("breadcrumbs", [])),
-            paginationNext=PaginationLink.from_dict(item.get("paginationNext", {})),
-            paginationPrevious=PaginationLink.from_dict(item.get("paginationPrevious", {})),
-        ))
-
+        new_item = _apply_types(
+            item,
+            from_list={
+                'products': ProductFromList,
+                'breadcrumbs': Breadcrumb,
+            },
+            from_dict={
+                'paginationNext': PaginationLink,
+                'paginationPrevious': PaginationLink,
+            }
+        )
         return super().from_dict(new_item)
 
 
@@ -466,19 +464,16 @@ class Reviews(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        # XXX: why is None not preserved for pagination?
-        # that's the reason this method is not converted to _apply_types.
-
-        if not item:
-            return None
-
-        new_item = dict(**item)
-        new_item.update(dict(
-            reviews=Review.from_list(item.get("reviews", [])),
-            paginationNext=PaginationLink.from_dict(item.get("paginationNext", {})),
-            paginationPrevious=PaginationLink.from_dict(item.get("paginationPrevious", {})),
-        ))
-
+        new_item = _apply_types(
+            item,
+            from_list={
+                'reviews': Review,
+            },
+            from_dict={
+                'paginationNext': PaginationLink,
+                'paginationPrevious': PaginationLink,
+            }
+        )
         return super().from_dict(new_item)
 
 
