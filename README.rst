@@ -18,11 +18,16 @@ autoextract-poet
    :target: https://codecov.io/gh/scrapinghub/autoextract-poet
    :alt: Coverage report
 
-``autoextract-poet`` implements `web-poet`_'s Page Objects for AutoExtract API.
+``autoextract-poet`` contains common item definitions.
+Such items can be extracted automatically using `Zyte AutoExtract API`_
+(you can use `scrapy-poet`_ and `scrapy-autoextract`_ for this).
 
 License is BSD 3-clause.
 
+* Documentation: https://autoextract-poet.readthedocs.io/
 * Source code: https://github.com/scrapinghub/autoextract-poet
 * Issue tracker: https://github.com/scrapinghub/autoextract-poet/issues
 
-.. _`web-poet`: https://github.com/scrapinghub/web-poet
+.. _`scrapy-poet`: https://scrapy-poet.readthedocs.io/en/stable/
+.. _`scrapy-autoextract`: https://github.com/scrapinghub/scrapy-autoextract
+.. _`Zyte AutoExtract API`: https://docs.zyte.com/automatic-extraction.html
