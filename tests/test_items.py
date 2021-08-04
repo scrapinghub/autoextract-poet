@@ -19,6 +19,7 @@ from autoextract_poet.items import (
 )
 
 from tests import load_fixture, temp_seed, crazy_monkey_nullify
+from tests.typing import assert_type_compliance
 
 example_article_result = load_fixture("sample_article.json")[0]
 example_article_list_result = load_fixture("sample_article_list.json")[0]
@@ -61,6 +62,7 @@ def test_item(cls, data, unexpected_attrs):
     assert isinstance(item, cls)
     assert attr.asdict(item) == data
     assert item._unknown_fields_dict == unexpected_attrs
+    assert_type_compliance(item)
 
     with temp_seed(7):
         for _ in range(10):
