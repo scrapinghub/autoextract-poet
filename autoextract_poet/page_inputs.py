@@ -1,4 +1,4 @@
-from typing import ClassVar, Generic, Optional, TypeVar
+from typing import ClassVar, Generic, Optional, TypeVar, Type
 
 import attr
 
@@ -46,10 +46,23 @@ class AutoExtractData(Generic[T]):
 
     @property
     def item_class(self):
-        return self.__orig_bases__[0].__args__[0]
+        return get_item_class(self)
 
     def to_item(self) -> Optional[T]:
         return self.item_class.from_dict(self.data[self.page_type])
+
+
+def get_item_class(page_input_cls: Type[AutoExtractData]) -> Type[Item]:
+    """ Return item class for the page input class.
+
+    >>> get_item_class(AutoExtractArticleData) is Article
+    True
+    >>> get_item_class(AutoExtractProductData) is Product
+    True
+    >>> get_item_class(AutoExtractData) is T
+    True
+    """
+    return page_input_cls.__orig_bases__[0].__args__[0]  # type: ignore[attr-defined]
 
 
 @export
