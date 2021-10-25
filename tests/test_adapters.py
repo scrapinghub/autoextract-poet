@@ -28,9 +28,7 @@ def item_adapter():
 
 @pytest.fixture
 def item() -> AutoExtractAdapter:
-    return ItemTest.from_dict(
-        dict(attr1=1, attr2="regular", attr3="additional1", attr4="additional2")
-    )
+    return ItemTest.from_dict(dict(attr1=1, attr2="regular", attr3="additional1", attr4="additional2"))
 
 
 @pytest.fixture
@@ -118,9 +116,7 @@ def test_iter(adapted_item, empty_item):
 
 def test_asdict(item_adapter, item):
     # Order is important
-    expected = list(
-        dict(attr1=1, attr2="regular", attr3="additional1", attr4="additional2").items()
-    )
+    expected = list(dict(attr1=1, attr2="regular", attr3="additional1", attr4="additional2").items())
     adapted_item = item_adapter(item)
     assert list(adapted_item.asdict().items()) == expected
 

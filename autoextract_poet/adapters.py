@@ -66,13 +66,10 @@ class AutoExtractAdapter(AttrsAdapter):
             del self.item._unknown_fields_dict[field_name]
         else:
             raise KeyError(
-                f"Object of type {self.item.__class__.__name__} does "
-                + f"not contain a field with name {field_name}"
+                f"Object of type {self.item.__class__.__name__} does not contain a field with name {field_name}"
             )
 
     def __iter__(self) -> Iterator:
         fields = [attr for attr in self._fields_dict if hasattr(self.item, attr)]
-        fields.extend(
-            attr for attr in self.item._unknown_fields_dict if attr not in fields
-        )
+        fields.extend(attr for attr in self.item._unknown_fields_dict if attr not in fields)
         return iter(fields)

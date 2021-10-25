@@ -8,9 +8,7 @@ import attr
 CLASS_ATTRS: WeakKeyDictionary = WeakKeyDictionary()
 
 
-def split_in_unknown_and_known_fields(
-    data: Optional[dict], item_cls: Type
-) -> Tuple[Dict, Dict]:
+def split_in_unknown_and_known_fields(data: Optional[dict], item_cls: Type) -> Tuple[Dict, Dict]:
     """
     Return a pair of dicts. The first one contains those elements not belonging to the
     attr class ``item_cls``. The second one contains the rest. That is, those

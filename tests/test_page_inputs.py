@@ -38,33 +38,13 @@ example_vehicle_result = load_fixture("sample_vehicle.json")
     "page_input_cls, page_cls, results",
     [
         (AutoExtractArticleData, AutoExtractArticlePage, example_article_result),
-        (
-            AutoExtractArticleListData,
-            AutoExtractArticleListPage,
-            example_article_list_result,
-        ),
+        (AutoExtractArticleListData, AutoExtractArticleListPage, example_article_list_result),
         (AutoExtractProductData, AutoExtractProductPage, example_product_result),
-        (
-            AutoExtractProductListData,
-            AutoExtractProductListPage,
-            example_product_list_result,
-        ),
-        (
-            AutoExtractJobPostingData,
-            AutoExtractJobPostingPage,
-            example_job_posting_result,
-        ),
+        (AutoExtractProductListData, AutoExtractProductListPage, example_product_list_result),
+        (AutoExtractJobPostingData, AutoExtractJobPostingPage, example_job_posting_result),
         (AutoExtractCommentsData, AutoExtractCommentsPage, example_comments_result),
-        (
-            AutoExtractForumPostsData,
-            AutoExtractForumPostsPage,
-            example_forum_posts_result,
-        ),
-        (
-            AutoExtractRealEstateData,
-            AutoExtractRealEstatePage,
-            example_real_estate_result,
-        ),
+        (AutoExtractForumPostsData, AutoExtractForumPostsPage, example_forum_posts_result),
+        (AutoExtractRealEstateData, AutoExtractRealEstatePage, example_real_estate_result),
         (AutoExtractReviewsData, AutoExtractReviewsPage, example_reviews_result),
         (AutoExtractVehicleData, AutoExtractVehiclePage, example_vehicle_result),
     ],

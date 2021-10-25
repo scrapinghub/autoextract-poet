@@ -41,9 +41,7 @@ class Item(_ItemBase):
         return [cls.from_dict(item) for item in items or []]
 
 
-def _apply_types(
-    item: Optional[dict], *, from_dict: dict = None, from_list: dict = None
-) -> Optional[dict]:
+def _apply_types(item: Optional[dict], *, from_dict: dict = None, from_list: dict = None) -> Optional[dict]:
     """
     Utility function to wrap basic types into data structures.
 
@@ -58,12 +56,8 @@ def _apply_types(
         return None
 
     new_item = dict(**item)
-    new_item.update(
-        {key: cls.from_dict(item.get(key)) for key, cls in (from_dict or {}).items()}
-    )
-    new_item.update(
-        {key: cls.from_list(item.get(key, [])) for key, cls in (from_list or {}).items()}
-    )
+    new_item.update({key: cls.from_dict(item.get(key)) for key, cls in (from_dict or {}).items()})
+    new_item.update({key: cls.from_list(item.get(key, [])) for key, cls in (from_list or {}).items()})
     return new_item
 
 
@@ -230,9 +224,7 @@ class ProductFromList(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        new_item = _apply_types(
-            item, from_dict={"aggregateRating": Rating}, from_list={"offers": Offer}
-        )
+        new_item = _apply_types(item, from_dict={"aggregateRating": Rating}, from_list={"offers": Offer})
         return super().from_dict(new_item)
 
 
@@ -358,9 +350,7 @@ class ForumPosts(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        new_item = _apply_types(
-            item, from_list={"posts": ForumPost}, from_dict={"topic": Topic}
-        )
+        new_item = _apply_types(item, from_list={"posts": ForumPost}, from_dict={"topic": Topic})
         return super().from_dict(new_item)
 
 

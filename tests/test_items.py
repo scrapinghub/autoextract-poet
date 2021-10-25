@@ -54,10 +54,7 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
 @pytest.mark.parametrize(
     "cls, data",
     [(Offer, offer) for offer in example_product_result["product"]["offers"]]
-    + [
-        (Breadcrumb, breadcrumb)  # type: ignore
-        for breadcrumb in example_product_result["product"]["breadcrumbs"]
-    ]
+    + [(Breadcrumb, breadcrumb) for breadcrumb in example_product_result["product"]["breadcrumbs"]]  # type: ignore
     + [
         (AdditionalProperty, additionalProperty)  # type: ignore
         for additionalProperty in example_product_result["product"]["additionalProperty"]
@@ -67,9 +64,7 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
     + [(Product, example_product_result["product"])]  # type: ignore
     + [(Article, example_article_result["article"])]  # type: ignore
     + [(ArticleList, example_article_list_result["articleList"])]  # type: ignore
-    + [
-        (PaginationLink, example_product_list_result["productList"]["paginationNext"])  # type: ignore
-    ]
+    + [(PaginationLink, example_product_list_result["productList"]["paginationNext"])]  # type: ignore
     + [(ProductList, example_product_list_result["productList"])]  # type: ignore
     + [(JobPosting, example_job_posting_result["jobPosting"])]  # type: ignore
     + [(Comments, example_comments_result["comments"])]  # type: ignore
@@ -80,9 +75,7 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
         (Vehicle, example_vehicle_result["vehicle"])  # type: ignore
     ],  # type: ignore
 )  # type: ignore
-@pytest.mark.parametrize(
-    "unexpected_attrs", [{}, {"unexpected_attribute": "Should not fail"}]
-)  # type: ignore
+@pytest.mark.parametrize("unexpected_attrs", [{}, {"unexpected_attribute": "Should not fail"}])  # type: ignore
 def test_item(cls, data, unexpected_attrs):
     assert cls.from_dict(None) is None
     item = cls.from_dict({**data, **unexpected_attrs})
