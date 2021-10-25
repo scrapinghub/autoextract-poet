@@ -1,3 +1,7 @@
+ci:
+    submodules: false
+
+
 repos:
   - hooks:
       - id: black
