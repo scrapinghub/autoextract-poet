@@ -1,17 +1,35 @@
 from typing import Optional
 
 import attr
-
-from autoextract_poet.items import Article, Product, ProductList, ArticleList, \
-    Comments, ForumPosts, JobPosting, RealEstate, Reviews, Vehicle
-from autoextract_poet.page_inputs import AutoExtractHtml, \
-    AutoExtractProductData, AutoExtractProductListData, AutoExtractArticleData, \
-    T, AutoExtractArticleListData, AutoExtractCommentsData, \
-    AutoExtractForumPostsData, AutoExtractJobPostingData, \
-    AutoExtractRealEstateData, AutoExtractReviewsData, AutoExtractVehicleData
-from autoextract_poet.util import export
 from web_poet import Injectable, ItemPage
 from web_poet.mixins import ResponseShortcutsMixin
+
+from autoextract_poet.items import (
+    Article,
+    ArticleList,
+    Comments,
+    ForumPosts,
+    JobPosting,
+    Product,
+    ProductList,
+    RealEstate,
+    Reviews,
+    Vehicle,
+)
+from autoextract_poet.page_inputs import (
+    AutoExtractArticleData,
+    AutoExtractArticleListData,
+    AutoExtractCommentsData,
+    AutoExtractForumPostsData,
+    AutoExtractHtml,
+    AutoExtractJobPostingData,
+    AutoExtractProductData,
+    AutoExtractProductListData,
+    AutoExtractRealEstateData,
+    AutoExtractReviewsData,
+    AutoExtractVehicleData,
+)
+from autoextract_poet.util import export
 
 
 @export
@@ -23,6 +41,7 @@ class AutoExtractWebPage(Injectable, ResponseShortcutsMixin):
     Use this class as a base class for Page Objects which work on
     the browser HTML provided by AutoExtract.
     """
+
     response: AutoExtractHtml
 
 
@@ -32,6 +51,7 @@ class AutoExtractItemWebPage(AutoExtractWebPage, ItemPage):
     """:class:`AutoExtractWebPage` that requires the :meth:`to_item` method to
     be implemented.
     """
+
     pass
 
 
@@ -43,6 +63,7 @@ class AutoExtractArticlePage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/article.html
     """
+
     article_data: AutoExtractArticleData
 
     def to_item(self) -> Optional[Article]:
@@ -57,6 +78,7 @@ class AutoExtractArticleListPage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/article-list.html
     """
+
     article_list_data: AutoExtractArticleListData
 
     def to_item(self) -> Optional[ArticleList]:
@@ -71,6 +93,7 @@ class AutoExtractProductPage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/product.html
     """
+
     product_data: AutoExtractProductData
 
     def to_item(self) -> Optional[Product]:
@@ -85,6 +108,7 @@ class AutoExtractProductListPage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/product-list.html
     """
+
     product_list_data: AutoExtractProductListData
 
     def to_item(self) -> Optional[ProductList]:
@@ -99,6 +123,7 @@ class AutoExtractCommentsPage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/comment.html
     """
+
     comments_data: AutoExtractCommentsData
 
     def to_item(self) -> Optional[Comments]:
@@ -113,6 +138,7 @@ class AutoExtractForumPostsPage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/forum-post.html
     """
+
     forum_posts_data: AutoExtractForumPostsData
 
     def to_item(self) -> Optional[ForumPosts]:
@@ -127,6 +153,7 @@ class AutoExtractJobPostingPage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/job-posting.html
     """
+
     job_posting_data: AutoExtractJobPostingData
 
     def to_item(self) -> Optional[JobPosting]:
@@ -141,6 +168,7 @@ class AutoExtractRealEstatePage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/real-estate.html
     """
+
     real_estate_data: AutoExtractRealEstateData
 
     def to_item(self) -> Optional[RealEstate]:
@@ -155,6 +183,7 @@ class AutoExtractReviewsPage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/review.html
     """
+
     reviews_data: AutoExtractReviewsData
 
     def to_item(self) -> Optional[Reviews]:
@@ -169,6 +198,7 @@ class AutoExtractVehiclePage(ItemPage):
 
     https://docs.zyte.com/automatic-extraction/vehicle.html
     """
+
     vehicle_data: AutoExtractVehicleData
 
     def to_item(self) -> Optional[Vehicle]:

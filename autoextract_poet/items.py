@@ -8,12 +8,11 @@ from .util import split_in_unknown_and_known_fields
 class _ItemBase:
     # Reserving an slot for _unknown_fields_dict.
     # This is done in a base class because otherwise attr.s won't pick it up
-    __slots__ = ("_unknown_fields_dict", )
+    __slots__ = ("_unknown_fields_dict",)
 
 
 @attr.s(auto_attribs=True, slots=True)
 class Item(_ItemBase):
-
     def __attrs_post_init__(self):
         self._unknown_fields_dict = {}
 
@@ -42,9 +41,9 @@ class Item(_ItemBase):
         return [cls.from_dict(item) for item in items or []]
 
 
-def _apply_types(item: Optional[dict], *,
-                 from_dict: dict = None,
-                 from_list: dict = None) -> Optional[dict]:
+def _apply_types(
+    item: Optional[dict], *, from_dict: dict = None, from_list: dict = None
+) -> Optional[dict]:
     """
     Utility function to wrap basic types into data structures.
 
@@ -59,14 +58,12 @@ def _apply_types(item: Optional[dict], *,
         return None
 
     new_item = dict(**item)
-    new_item.update({
-        key: cls.from_dict(item.get(key))
-        for key, cls in (from_dict or {}).items()
-    })
-    new_item.update({
-        key: cls.from_list(item.get(key, []))
-        for key, cls in (from_list or {}).items()
-    })
+    new_item.update(
+        {key: cls.from_dict(item.get(key)) for key, cls in (from_dict or {}).items()}
+    )
+    new_item.update(
+        {key: cls.from_list(item.get(key, [])) for key, cls in (from_list or {}).items()}
+    )
     return new_item
 
 
@@ -139,10 +136,9 @@ class Article(Item):
     audioUrls: List[str] = attr.Factory(list)
     canonicalUrl: Optional[str] = None
 
-
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        new_item = _apply_types(item, from_list={'breadcrumbs': Breadcrumb})
+        new_item = _apply_types(item, from_list={"breadcrumbs": Breadcrumb})
         return super().from_dict(new_item)
 
 
@@ -174,11 +170,11 @@ class ArticleList(Item):
     def from_dict(cls, item: Optional[Dict]):
         new_item = _apply_types(
             item,
-            from_list={'articles': ArticleFromList},
+            from_list={"articles": ArticleFromList},
             from_dict={
-                'paginationNext': PaginationLink,
-                'paginationPrevious': PaginationLink
-            }
+                "paginationNext": PaginationLink,
+                "paginationPrevious": PaginationLink,
+            },
         )
         return super().from_dict(new_item)
 
@@ -207,13 +203,13 @@ class Product(Item):
     def from_dict(cls, item: Optional[Dict]):
         new_item = _apply_types(
             item,
-            from_dict={'aggregateRating': Rating},
+            from_dict={"aggregateRating": Rating},
             from_list={
-                'additionalProperty': AdditionalProperty,
-                'breadcrumbs': Breadcrumb,
-                'gtin': GTIN,
-                'offers': Offer,
-            }
+                "additionalProperty": AdditionalProperty,
+                "breadcrumbs": Breadcrumb,
+                "gtin": GTIN,
+                "offers": Offer,
+            },
         )
         return super().from_dict(new_item)
 
@@ -235,9 +231,7 @@ class ProductFromList(Item):
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
         new_item = _apply_types(
-            item,
-            from_dict={'aggregateRating': Rating},
-            from_list={'offers': Offer}
+            item, from_dict={"aggregateRating": Rating}, from_list={"offers": Offer}
         )
         return super().from_dict(new_item)
 
@@ -256,13 +250,13 @@ class ProductList(Item):
         new_item = _apply_types(
             item,
             from_list={
-                'products': ProductFromList,
-                'breadcrumbs': Breadcrumb,
+                "products": ProductFromList,
+                "breadcrumbs": Breadcrumb,
             },
             from_dict={
-                'paginationNext': PaginationLink,
-                'paginationPrevious': PaginationLink,
-            }
+                "paginationNext": PaginationLink,
+                "paginationPrevious": PaginationLink,
+            },
         )
         return super().from_dict(new_item)
 
@@ -303,11 +297,14 @@ class JobPosting(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        new_item = _apply_types(item, from_dict={
-            "hiringOrganization": Organization,
-            "baseSalary": Salary,
-            "jobLocation": Location,
-        })
+        new_item = _apply_types(
+            item,
+            from_dict={
+                "hiringOrganization": Organization,
+                "baseSalary": Salary,
+                "jobLocation": Location,
+            },
+        )
         return super().from_dict(new_item)
 
 
@@ -361,9 +358,9 @@ class ForumPosts(Item):
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):
-        new_item = _apply_types(item,
-                                from_list={"posts": ForumPost},
-                                from_dict={"topic": Topic})
+        new_item = _apply_types(
+            item, from_list={"posts": ForumPost}, from_dict={"topic": Topic}
+        )
         return super().from_dict(new_item)
 
 
@@ -425,19 +422,19 @@ class RealEstate(Item):
             from_list={
                 "additionalProperty": AdditionalProperty,
                 "breadcrumbs": Breadcrumb,
-                "tradeActions": TradeAction
+                "tradeActions": TradeAction,
             },
             from_dict={
                 "address": Address,
                 "area": Area,
-            }
+            },
         )
         return super().from_dict(new_item)
 
 
 @attr.s(auto_attribs=True, slots=True)
 class Review(Item):
-    
+
     name: Optional[str] = None
     reviewBody: Optional[str] = None
     reviewRating: Optional[Rating] = None
@@ -467,12 +464,12 @@ class Reviews(Item):
         new_item = _apply_types(
             item,
             from_list={
-                'reviews': Review,
+                "reviews": Review,
             },
             from_dict={
-                'paginationNext': PaginationLink,
-                'paginationPrevious': PaginationLink,
-            }
+                "paginationNext": PaginationLink,
+                "paginationPrevious": PaginationLink,
+            },
         )
         return super().from_dict(new_item)
 
@@ -537,16 +534,16 @@ class Vehicle(Item):
         new_item = _apply_types(
             item,
             from_dict={
-                'aggregateRating': Rating,
-                'mileageFromOdometer': MileageFromOdometer,
-                'vehicleEngine': VehicleEngine,
-                'availableAtOrFrom': AvailableAtOrFrom,
+                "aggregateRating": Rating,
+                "mileageFromOdometer": MileageFromOdometer,
+                "vehicleEngine": VehicleEngine,
+                "availableAtOrFrom": AvailableAtOrFrom,
             },
             from_list={
-                'additionalProperty': AdditionalProperty,
-                'breadcrumbs': Breadcrumb,
-                'offers': Offer,
-                'fuelEfficiency': FuelEfficiency,
-            }
+                "additionalProperty": AdditionalProperty,
+                "breadcrumbs": Breadcrumb,
+                "offers": Offer,
+                "fuelEfficiency": FuelEfficiency,
+            },
         )
         return super().from_dict(new_item)

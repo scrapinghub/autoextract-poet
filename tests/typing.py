@@ -1,10 +1,12 @@
-from typing import List, Tuple, Optional, Union
+from typing import Tuple
+
 try:
     from typing import get_args
 except ImportError:
     # Compliance with python 3.6 and 3.7
     def get_args(tp) -> Tuple:
         return getattr(tp, "__args__", ())
+
 
 import attr
 

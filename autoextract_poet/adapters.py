@@ -1,5 +1,5 @@
 from types import MappingProxyType
-from typing import Any, KeysView, Iterator
+from typing import Any, Iterator, KeysView
 
 from itemadapter.adapter import AttrsAdapter
 
@@ -26,6 +26,7 @@ class AutoExtractAdapter(AttrsAdapter):
 
         ItemAdapter.ADAPTER_CLASSES.appendleft(AutoExtractAdapter)
     """
+
     def __init__(self, item: Any) -> None:
         super().__init__(item)
 
@@ -64,10 +65,14 @@ class AutoExtractAdapter(AttrsAdapter):
         elif field_name in self.item._unknown_fields_dict:
             del self.item._unknown_fields_dict[field_name]
         else:
-            raise KeyError(f"Object of type {self.item.__class__.__name__} does " +
-                           f"not contain a field with name {field_name}")
+            raise KeyError(
+                f"Object of type {self.item.__class__.__name__} does "
+                + f"not contain a field with name {field_name}"
+            )
 
     def __iter__(self) -> Iterator:
         fields = [attr for attr in self._fields_dict if hasattr(self.item, attr)]
-        fields.extend(attr for attr in self.item._unknown_fields_dict if attr not in fields)
+        fields.extend(
+            attr for attr in self.item._unknown_fields_dict if attr not in fields
+        )
         return iter(fields)
