@@ -54,12 +54,12 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
 @pytest.mark.parametrize(
     "cls, data",
     [(Offer, offer) for offer in example_product_result["product"]["offers"]]
-    + [  # type: ignore
-        (Breadcrumb, breadcrumb)
+    + [
+        (Breadcrumb, breadcrumb)  # type: ignore
         for breadcrumb in example_product_result["product"]["breadcrumbs"]
     ]
-    + [  # type: ignore
-        (AdditionalProperty, additionalProperty)
+    + [
+        (AdditionalProperty, additionalProperty)  # type: ignore
         for additionalProperty in example_product_result["product"]["additionalProperty"]
     ]
     + [(GTIN, gtin) for gtin in example_product_result["product"]["gtin"]]  # type: ignore
@@ -67,8 +67,8 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
     + [(Product, example_product_result["product"])]  # type: ignore
     + [(Article, example_article_result["article"])]  # type: ignore
     + [(ArticleList, example_article_list_result["articleList"])]  # type: ignore
-    + [  # type: ignore
-        (PaginationLink, example_product_list_result["productList"]["paginationNext"])
+    + [
+        (PaginationLink, example_product_list_result["productList"]["paginationNext"])  # type: ignore
     ]
     + [(ProductList, example_product_list_result["productList"])]  # type: ignore
     + [(JobPosting, example_job_posting_result["jobPosting"])]  # type: ignore
@@ -76,8 +76,8 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
     + [(ForumPosts, example_forum_posts_result["forumPosts"])]  # type: ignore
     + [(RealEstate, example_real_estate_result["realEstate"])]  # type: ignore
     + [(Reviews, example_reviews_result["reviews"])]  # type: ignore
-    + [  # type: ignore
-        (Vehicle, example_vehicle_result["vehicle"])
+    + [
+        (Vehicle, example_vehicle_result["vehicle"])  # type: ignore
     ],  # type: ignore
 )  # type: ignore
 @pytest.mark.parametrize(
