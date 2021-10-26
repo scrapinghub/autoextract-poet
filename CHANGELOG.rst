@@ -2,7 +2,7 @@
 Changelog
 =========
 
-TBD
+0.3.1 (2021-10-26)
 ------------------
 
 * Supports new fields from AutoExtract for Product: ``color``, ``size``,
