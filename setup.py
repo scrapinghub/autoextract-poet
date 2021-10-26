@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='autoextract-poet',
-    version='0.3.0',
+    version='0.3.1',
     description='web-poet definitions for AutoExtract API',
     long_description=open('README.rst').read(),
     long_description_content_type="text/x-rst",
