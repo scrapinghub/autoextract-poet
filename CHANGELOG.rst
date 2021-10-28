@@ -2,9 +2,10 @@
 Changelog
 =========
 
-0.3.1 (2021-10-26)
-------------------
+0.3.1 / 0.4.0 (2021-10-26)
+--------------------------
 
+* These two versions are the same and was uploaded as duplicates to PyPI.
 * Supports new fields from AutoExtract for Product: ``color``, ``size``,
   ``style``.
 
