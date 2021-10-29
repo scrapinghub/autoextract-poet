@@ -1,16 +1,25 @@
 import attr
 import pytest
 
-from autoextract_poet import *
-from autoextract_poet.page_inputs import AutoExtractArticleListData, \
-    AutoExtractJobPostingData, AutoExtractCommentsData, \
-    AutoExtractForumPostsData, AutoExtractRealEstateData, \
-    AutoExtractReviewsData, AutoExtractVehicleData
-from autoextract_poet.pages import AutoExtractArticleListPage, \
-    AutoExtractJobPostingPage, AutoExtractCommentsPage, \
-    AutoExtractForumPostsPage, AutoExtractRealEstatePage, \
-    AutoExtractReviewsPage, AutoExtractVehiclePage
-
+from autoextract_poet import *  # noqa
+from autoextract_poet.page_inputs import (
+    AutoExtractArticleListData,
+    AutoExtractCommentsData,
+    AutoExtractForumPostsData,
+    AutoExtractJobPostingData,
+    AutoExtractRealEstateData,
+    AutoExtractReviewsData,
+    AutoExtractVehicleData,
+)
+from autoextract_poet.pages import (
+    AutoExtractArticleListPage,
+    AutoExtractCommentsPage,
+    AutoExtractForumPostsPage,
+    AutoExtractJobPostingPage,
+    AutoExtractRealEstatePage,
+    AutoExtractReviewsPage,
+    AutoExtractVehiclePage,
+)
 from tests import load_fixture
 
 example_article_result = load_fixture("sample_article.json")
@@ -25,18 +34,21 @@ example_reviews_result = load_fixture("sample_reviews.json")
 example_vehicle_result = load_fixture("sample_vehicle.json")
 
 
-@pytest.mark.parametrize("page_input_cls, page_cls, results", [
-    (AutoExtractArticleData, AutoExtractArticlePage, example_article_result),
-    (AutoExtractArticleListData, AutoExtractArticleListPage, example_article_list_result),
-    (AutoExtractProductData, AutoExtractProductPage, example_product_result),
-    (AutoExtractProductListData, AutoExtractProductListPage, example_product_list_result),
-    (AutoExtractJobPostingData, AutoExtractJobPostingPage, example_job_posting_result),
-    (AutoExtractCommentsData, AutoExtractCommentsPage, example_comments_result),
-    (AutoExtractForumPostsData, AutoExtractForumPostsPage, example_forum_posts_result),
-    (AutoExtractRealEstateData, AutoExtractRealEstatePage, example_real_estate_result),
-    (AutoExtractReviewsData, AutoExtractReviewsPage, example_reviews_result),
-    (AutoExtractVehicleData, AutoExtractVehiclePage, example_vehicle_result),
-])
+@pytest.mark.parametrize(
+    "page_input_cls, page_cls, results",
+    [
+        (AutoExtractArticleData, AutoExtractArticlePage, example_article_result),
+        (AutoExtractArticleListData, AutoExtractArticleListPage, example_article_list_result),
+        (AutoExtractProductData, AutoExtractProductPage, example_product_result),
+        (AutoExtractProductListData, AutoExtractProductListPage, example_product_list_result),
+        (AutoExtractJobPostingData, AutoExtractJobPostingPage, example_job_posting_result),
+        (AutoExtractCommentsData, AutoExtractCommentsPage, example_comments_result),
+        (AutoExtractForumPostsData, AutoExtractForumPostsPage, example_forum_posts_result),
+        (AutoExtractRealEstateData, AutoExtractRealEstatePage, example_real_estate_result),
+        (AutoExtractReviewsData, AutoExtractReviewsPage, example_reviews_result),
+        (AutoExtractVehicleData, AutoExtractVehiclePage, example_vehicle_result),
+    ],
+)
 def test_response_data_and_page(page_input_cls, page_cls, results):
     response_data = page_input_cls(results[0])
     item = response_data.to_item()

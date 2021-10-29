@@ -2,23 +2,41 @@ import attr
 import pytest
 
 from autoextract_poet.items import (
-    AdditionalProperty,
-    Article,
-    Breadcrumb,
     GTIN,
-    Offer,
-    Product,
-    Rating, ProductList, PaginationLink, Item,
-    JobPosting,
+    AdditionalProperty,
+    Address,
+    Area,
+    Article,
+    ArticleFromList,
     ArticleList,
-    Comments, ForumPosts, RealEstate, Reviews, Vehicle, ArticleFromList,
-    ProductFromList, Salary, Organization,
-    Location, Comment, ForumPost, Topic, Address, Area, TradeAction,
-    Review, MileageFromOdometer, VehicleEngine,
-    AvailableAtOrFrom, FuelEfficiency
+    AvailableAtOrFrom,
+    Breadcrumb,
+    Comment,
+    Comments,
+    ForumPost,
+    ForumPosts,
+    FuelEfficiency,
+    Item,
+    JobPosting,
+    Location,
+    MileageFromOdometer,
+    Offer,
+    Organization,
+    PaginationLink,
+    Product,
+    ProductFromList,
+    ProductList,
+    Rating,
+    RealEstate,
+    Review,
+    Reviews,
+    Salary,
+    Topic,
+    TradeAction,
+    Vehicle,
+    VehicleEngine,
 )
-
-from tests import load_fixture, temp_seed, crazy_monkey_nullify
+from tests import crazy_monkey_nullify, load_fixture, temp_seed
 from tests.typing import assert_type_compliance
 
 example_article_result = load_fixture("sample_article.json")[0]
@@ -35,27 +53,29 @@ example_vehicle_result = load_fixture("sample_vehicle.json")[0]
 
 @pytest.mark.parametrize(
     "cls, data",
-    [(Offer, offer) for offer in example_product_result["product"]["offers"]] +  # type: ignore
-    [(Breadcrumb, breadcrumb) for breadcrumb in example_product_result["product"]["breadcrumbs"]] +  # type: ignore
-    [(AdditionalProperty, additionalProperty) for additionalProperty in example_product_result["product"]["additionalProperty"]] +  # type: ignore
-    [(GTIN, gtin) for gtin in example_product_result["product"]["gtin"]] +  # type: ignore
-    [(Rating, example_product_result["product"]["aggregateRating"])] +  # type: ignore
-    [(Product, example_product_result["product"])] +  # type: ignore
-    [(Article, example_article_result["article"])] +  # type: ignore
-    [(ArticleList, example_article_list_result["articleList"])] +  # type: ignore
-    [(PaginationLink, example_product_list_result["productList"]["paginationNext"])] +  # type: ignore
-    [(ProductList, example_product_list_result["productList"])] +  # type: ignore
-    [(JobPosting, example_job_posting_result["jobPosting"])] +  # type: ignore
-    [(Comments, example_comments_result["comments"])] +  # type: ignore
-    [(ForumPosts, example_forum_posts_result["forumPosts"])] +  # type: ignore
-    [(RealEstate, example_real_estate_result["realEstate"])] +  # type: ignore
-    [(Reviews, example_reviews_result["reviews"])] +  # type: ignore
-    [(Vehicle, example_vehicle_result["vehicle"])]  # type: ignore
+    [(Offer, offer) for offer in example_product_result["product"]["offers"]]
+    + [(Breadcrumb, breadcrumb) for breadcrumb in example_product_result["product"]["breadcrumbs"]]  # type: ignore
+    + [
+        (AdditionalProperty, additionalProperty)  # type: ignore
+        for additionalProperty in example_product_result["product"]["additionalProperty"]
+    ]
+    + [(GTIN, gtin) for gtin in example_product_result["product"]["gtin"]]  # type: ignore
+    + [(Rating, example_product_result["product"]["aggregateRating"])]  # type: ignore
+    + [(Product, example_product_result["product"])]  # type: ignore
+    + [(Article, example_article_result["article"])]  # type: ignore
+    + [(ArticleList, example_article_list_result["articleList"])]  # type: ignore
+    + [(PaginationLink, example_product_list_result["productList"]["paginationNext"])]  # type: ignore
+    + [(ProductList, example_product_list_result["productList"])]  # type: ignore
+    + [(JobPosting, example_job_posting_result["jobPosting"])]  # type: ignore
+    + [(Comments, example_comments_result["comments"])]  # type: ignore
+    + [(ForumPosts, example_forum_posts_result["forumPosts"])]  # type: ignore
+    + [(RealEstate, example_real_estate_result["realEstate"])]  # type: ignore
+    + [(Reviews, example_reviews_result["reviews"])]  # type: ignore
+    + [
+        (Vehicle, example_vehicle_result["vehicle"])  # type: ignore
+    ],  # type: ignore
 )  # type: ignore
-@pytest.mark.parametrize(
-    "unexpected_attrs",
-    [{}, {"unexpected_attribute": "Should not fail"}]
-)  # type: ignore
+@pytest.mark.parametrize("unexpected_attrs", [{}, {"unexpected_attribute": "Should not fail"}])  # type: ignore
 def test_item(cls, data, unexpected_attrs):
     assert cls.from_dict(None) is None
     item = cls.from_dict({**data, **unexpected_attrs})
@@ -80,7 +100,6 @@ def test_item(cls, data, unexpected_attrs):
 
 
 def test_from_list():
-
     @attr.s(auto_attribs=True, slots=True)
     class Number(Item):
         value: int

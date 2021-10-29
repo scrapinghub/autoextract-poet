@@ -2,6 +2,13 @@
 Changelog
 =========
 
+x.y.z (YYYY-MM-DD)
+--------------------------
+
+* (internal) Setup pre-commit linters like ``black``, ``isort``, and
+  ``flake8`` to standardize code quality.
+
+
 0.3.1 / 0.4.0 (2021-10-26)
 --------------------------
 

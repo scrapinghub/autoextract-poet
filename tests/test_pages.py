@@ -1,10 +1,6 @@
 import pytest
 
-from autoextract_poet import (
-    AutoExtractHtml,
-    AutoExtractWebPage,
-    AutoExtractItemWebPage,
-)
+from autoextract_poet import AutoExtractHtml, AutoExtractItemWebPage, AutoExtractWebPage
 
 
 @pytest.fixture
@@ -22,7 +18,7 @@ class ConcreteItemWebPage(AutoExtractItemWebPage):
 @pytest.mark.parametrize("cls", [AutoExtractWebPage, ConcreteItemWebPage])
 def test_auto_extract_web_page_family(auto_extract_html, cls):
     page = cls(auto_extract_html)
-    assert  page.response == auto_extract_html
+    assert page.response == auto_extract_html
     assert page.css("html body p::text").get() == "Hello!"
 
 

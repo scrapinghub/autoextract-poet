@@ -28,11 +28,7 @@ def item_adapter():
 
 @pytest.fixture
 def item() -> AutoExtractAdapter:
-    return ItemTest.from_dict(dict(attr1=1,
-                                   attr2="regular",
-                                   attr3="additional1",
-                                   attr4="additional2"))
-
+    return ItemTest.from_dict(dict(attr1=1, attr2="regular", attr3="additional1", attr4="additional2"))
 
 
 @pytest.fixture
@@ -61,14 +57,14 @@ def test_get_field_meta(adapted_item):
 def test_field_names(adapted_item):
     expected = ["attr1", "attr2", "attr3", "attr4"]
     assert list(adapted_item.field_names()) == expected
-    adapted_item.item._unknown_fields_dict['attr1'] = "duplicated"
+    adapted_item.item._unknown_fields_dict["attr1"] = "duplicated"
     assert list(adapted_item.field_names()) == expected
 
 
 def test_field_names_on_empty(empty_item):
     assert not empty_item.field_names()
-    empty_item.item._unknown_fields_dict['attr'] = "additional"
-    assert list(empty_item.field_names()) == ['attr']
+    empty_item.item._unknown_fields_dict["attr"] = "additional"
+    assert list(empty_item.field_names()) == ["attr"]
 
 
 def test_getitem_setitem(adapted_item, empty_item):
@@ -120,15 +116,14 @@ def test_iter(adapted_item, empty_item):
 
 def test_asdict(item_adapter, item):
     # Order is important
-    expected = list(dict(attr1=1,
-                    attr2="regular",
-                    attr3="additional1",
-                    attr4="additional2").items())
+    expected = list(dict(attr1=1, attr2="regular", attr3="additional1", attr4="additional2").items())
     adapted_item = item_adapter(item)
     assert list(adapted_item.asdict().items()) == expected
 
     # Items should be serializable after attr.s attributes removal
     del adapted_item["attr1"]
-    assert list(adapted_item.asdict().items()) == [("attr2", "regular"),
-                                                   ("attr3", "additional1"),
-                                                   ("attr4", "additional2")]
+    assert list(adapted_item.asdict().items()) == [
+        ("attr2", "regular"),
+        ("attr3", "additional1"),
+        ("attr4", "additional2"),
+    ]

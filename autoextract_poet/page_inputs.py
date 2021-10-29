@@ -1,12 +1,19 @@
-from typing import ClassVar, Generic, Optional, TypeVar, Type
+from typing import ClassVar, Generic, Optional, Type, TypeVar
 
 import attr
 
 from autoextract_poet.items import (
     Article,
+    ArticleList,
+    Comments,
+    ForumPosts,
     Item,
-    Product, ProductList, ArticleList, Comments, ForumPosts, JobPosting,
-    RealEstate, Reviews, Vehicle,
+    JobPosting,
+    Product,
+    ProductList,
+    RealEstate,
+    Reviews,
+    Vehicle,
 )
 from autoextract_poet.util import export
 
@@ -21,6 +28,7 @@ class AutoExtractHtml:
 
     ``html`` should be browser HTML in unicode
     """
+
     url: str
     html: str
 
@@ -41,6 +49,7 @@ class AutoExtractData(Generic[T]):
 
     https://docs.zyte.com/automatic-extraction.html#responses
     """
+
     page_type: ClassVar[str]
     data: dict
 
@@ -53,7 +62,7 @@ class AutoExtractData(Generic[T]):
 
 
 def get_item_class(page_input_cls: Type[AutoExtractData]) -> Type[Item]:
-    """ Return item class for the page input class.
+    """Return item class for the page input class.
 
     >>> get_item_class(AutoExtractArticleData) is Article
     True
@@ -72,6 +81,7 @@ class AutoExtractArticleData(AutoExtractData[Article]):
 
     https://docs.zyte.com/automatic-extraction/article.html
     """
+
     page_type = "article"
 
 
@@ -82,6 +92,7 @@ class AutoExtractProductData(AutoExtractData[Product]):
 
     https://docs.zyte.com/automatic-extraction/product.html
     """
+
     page_type = "product"
 
 
@@ -92,6 +103,7 @@ class AutoExtractProductListData(AutoExtractData[ProductList]):
 
     https://docs.zyte.com/automatic-extraction/product-list.html
     """
+
     page_type = "productList"
 
 
@@ -102,6 +114,7 @@ class AutoExtractArticleListData(AutoExtractData[ArticleList]):
 
     https://docs.zyte.com/automatic-extraction/article-list.html
     """
+
     page_type = "articleList"
 
 
@@ -112,6 +125,7 @@ class AutoExtractCommentsData(AutoExtractData[Comments]):
 
     https://docs.zyte.com/automatic-extraction/comment.html
     """
+
     page_type = "comments"
 
 
@@ -122,6 +136,7 @@ class AutoExtractForumPostsData(AutoExtractData[ForumPosts]):
 
     https://docs.zyte.com/automatic-extraction/forum-post.html
     """
+
     page_type = "forumPosts"
 
 
@@ -132,6 +147,7 @@ class AutoExtractJobPostingData(AutoExtractData[JobPosting]):
 
     https://docs.zyte.com/automatic-extraction/job-posting.html
     """
+
     page_type = "jobPosting"
 
 
@@ -142,6 +158,7 @@ class AutoExtractRealEstateData(AutoExtractData[RealEstate]):
 
     https://docs.zyte.com/automatic-extraction/real-estate.html
     """
+
     page_type = "realEstate"
 
 
@@ -152,6 +169,7 @@ class AutoExtractReviewsData(AutoExtractData[Reviews]):
 
     https://docs.zyte.com/automatic-extraction/review.html
     """
+
     page_type = "reviews"
 
 
@@ -162,4 +180,5 @@ class AutoExtractVehicleData(AutoExtractData[Vehicle]):
 
     https://docs.zyte.com/automatic-extraction/vehicle.html
     """
+
     page_type = "vehicle"
