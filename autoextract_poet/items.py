@@ -192,6 +192,9 @@ class Product(Item):
     descriptionHtml: Optional[str] = None
     additionalProperty: List[AdditionalProperty] = attr.Factory(list)
     aggregateRating: Optional[Rating] = None
+    color: Optional[str] = None
+    size: Optional[str] = None
+    style: Optional[str] = None
 
     @classmethod
     def from_dict(cls, item: Optional[Dict]):

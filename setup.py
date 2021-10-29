@@ -1,10 +1,10 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="autoextract-poet",
-    version="0.3.0",
-    description="web-poet definitions for AutoExtract API",
-    long_description=open("README.rst").read(),
+    name='autoextract-poet',
+    version='0.3.1',
+    description='web-poet definitions for AutoExtract API',
+    long_description=open('README.rst').read(),
     long_description_content_type="text/x-rst",
     author="Zyte Group Ltd",
     author_email="info@zyte.com",
