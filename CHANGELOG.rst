@@ -5,6 +5,8 @@ Changelog
 x.y.z (YYYY-MM-DD)
 --------------------------
 
+* removed support for Python 3.6
+* added support for Python 3.10
 * (internal) Setup pre-commit linters like ``black``, ``isort``, and
   ``flake8`` to standardize code quality.
 
